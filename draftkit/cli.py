@@ -377,6 +377,11 @@ def main(argv=None) -> int:
     players = load_rankings(rankings_path)
     notes = apply_positional_rankings(players, os.path.dirname(rankings_path))
     n_adp = apply_adp(players, args.adp)
+    overrides = os.path.join(os.path.dirname(args.adp), "adp_overrides.csv")
+    if os.path.exists(overrides):
+        n_over = apply_adp(players, overrides, replace=True)
+        if n_over:
+            print(f"Applied {n_over} ADP overrides from {os.path.basename(overrides)}")
     have_adp = sum(1 for p in players if p.adp is not None)
     print(f"Loaded {len(players)} players from {os.path.basename(rankings_path)}"
           + (f"; ADP for {have_adp}" if have_adp else "; no ADP (using your ranks as ADP)"))

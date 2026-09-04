@@ -47,7 +47,7 @@ def _to_float(v) -> Optional[float]:
 def _read_rows(path: str) -> list[dict]:
     with open(path, newline="", encoding="utf-8-sig") as f:
         reader = csv.reader(f)
-        rows = [r for r in reader if any(c.strip() for c in r)]
+        rows = [r for r in reader if any(c.strip() for c in r) and not r[0].lstrip().startswith("#")]
     if not rows:
         return []
     header = rows[0]
@@ -144,7 +144,7 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
     return notes
 
 
-def apply_adp(players: list[Player], path: str) -> int:
+def apply_adp(players: list[Player], path: str, replace: bool = False) -> int:
     """Merge an ADP CSV (name, adp[, pos, team]) into players.
 
     Matching order: exact normalized name; last name + first initial (so
@@ -194,7 +194,7 @@ def apply_adp(players: list[Player], path: str) -> int:
             team = (d.get("team") or "").upper()
             cands = [c for c in players if c.pos == "DEF" and
                      (c.team == team or parts[-1] in c.key.split())]
-        if len(cands) == 1 and cands[0].adp is None:
+        if len(cands) == 1 and (replace or cands[0].adp is None):
             cands[0].adp = adp
             matched += 1
     return matched

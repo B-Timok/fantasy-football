@@ -38,9 +38,12 @@ Optional extras, all in `data/`:
 - `rankings_QB.csv`, `rankings_RB.csv`, ... : per-position lists. They
   override the positional rank and tier from the overall file. Players only in
   a positional file get appended to the end of the overall list.
-- `adp.csv` (`name,adp`): average draft position from Sleeper/FantasyPros.
+- `adp.csv` (`name,adp`): average draft position. Build it with
+  `python fetch_adp.py --text pasted.txt [--col N]` from any copied ADP table.
   This is what makes the "will he be there next time" numbers good. Without it
   the tool assumes everyone drafts by your rankings.
+- `adp_overrides.csv`: manual ADP for players the site doesn't list or where
+  you disagree; applied after `adp.csv` and never overwritten.
 - `league.json`: teams, roster slots, rounds. Already set for 12-team PPR,
   1 QB / 2 RB / 2 WR / TE / FLEX / K / DEF / 6 bench.
 
