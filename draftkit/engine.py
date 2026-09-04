@@ -21,6 +21,7 @@ URGENCY_W = 0.8          # weight of drop-off-if-you-wait
 LAST_IN_TIER_BONUS = 4.0  # last player in a tier at his position
 BENCH_DISCOUNT = {"QB": 0.45, "RB": 0.8, "WR": 0.8, "TE": 0.45, "K": 0.05, "DEF": 0.05}
 FLEX_DISCOUNT = 0.92
+TE_FLEX_DISCOUNT = 0.75   # a TE can fill FLEX, but a 2nd TE is rarely the best use of it
 # once you already hold N at a position, a further one is worth this much (1-QB league)
 COUNT_DISCOUNT = {"QB": {1: 0.35, 2: 0.02}, "TE": {1: 0.35, 2: 0.02},
                   "K": {1: 0.0}, "DEF": {1: 0.0}, "RB": {6: 0.3}, "WR": {6: 0.3}}
@@ -48,6 +49,16 @@ def base_value(rank: int, horizon: int = 220) -> float:
     """Map overall rank to a 0-100 value with a steep top end."""
     x = min(max(rank - 1, 0), horizon) / horizon
     return 100.0 * (1.0 - x) ** 1.6
+
+
+def ppg_of(p: Player) -> float:
+    """Projected points per game for display: DraftSharks projection / 17,
+    else last season's ppg, else a rough conversion from the value curve."""
+    if p.proj is not None:
+        return p.proj / 17.0
+    if p.ppg is not None:
+        return p.ppg
+    return 4.0 + base_value(p.rank) * 0.16
 
 
 def player_value(p: Player) -> float:
@@ -112,6 +123,8 @@ def need_multiplier(pos: str, roster: RosterView, league: League, rnd: int) -> t
     if opened.get(pos, 0) > 0:
         return 1.0, f"{pos} starter open"
     if pos in league.flex_positions and opened.get("FLEX", 0) > 0:
+        if pos == "TE":
+            return FLEX_DISCOUNT * TE_FLEX_DISCOUNT, "FLEX open (2nd TE)"
         return FLEX_DISCOUNT, "FLEX open"
     have = roster.counts.get(pos, 0)
     disc = BENCH_DISCOUNT[pos]
@@ -153,6 +166,8 @@ class PosOutlook:
     likely_next: Optional[Player]   # most probable "best available" at your next pick
     n_expected_gone: float          # expected number at this pos taken before your next pick
     dropoff: float
+    ppg_now: float = 0.0            # projected ppg of the best available now
+    ppg_next: float = 0.0           # expected projected ppg of the best available at your next pick
 
 
 def position_outlook(available: list[Player], pos: str, now_pick: int,
@@ -164,8 +179,8 @@ def position_outlook(available: list[Player], pos: str, now_pick: int,
     best = pool[0]
     if next_pick is None:
         v = player_value(best)
-        return PosOutlook(pos, best, v, best, 0.0, 0.0)
-    exp_v = 0.0
+        return PosOutlook(pos, best, v, best, 0.0, 0.0, ppg_of(best), ppg_of(best))
+    exp_v = exp_ppg = 0.0
     p_none_before = 1.0
     likely, likely_p = best, 0.0
     n_gone = 0.0
@@ -174,13 +189,14 @@ def position_outlook(available: list[Player], pos: str, now_pick: int,
         n_gone += 1.0 - pa
         p_first = p_none_before * pa
         exp_v += p_first * player_value(pl)
+        exp_ppg += p_first * ppg_of(pl)
         if p_first > likely_p:
             likely, likely_p = pl, p_first
         p_none_before *= (1.0 - pa)
         if p_none_before < 1e-4:
             break
     dropoff = max(0.0, player_value(best) - exp_v)
-    return PosOutlook(pos, best, exp_v, likely, n_gone, dropoff)
+    return PosOutlook(pos, best, exp_v, likely, n_gone, dropoff, ppg_of(best), exp_ppg)
 
 
 @dataclass
@@ -213,7 +229,9 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
     recs = []
     for p in available:
         value = player_value(p)
-        sm = strategy.weight(p.pos, rnd, roster.counts) * kicker_def_gate(p.pos, rnd, league)
+        gate = kicker_def_gate(p.pos, rnd, league)
+        strat_m = strategy.weight(p.pos, rnd, roster.counts)
+        sm = strat_m * gate
         nm, need_reason = need_multiplier(p.pos, roster, league, rnd)
         mf = must_fill_multiplier(p.pos, roster, league, picks_remaining)
         nm *= mf
@@ -238,14 +256,17 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
             elif pa > 0.8:
                 reasons.append(f"likely still there ({pa * 100:.0f}%)")
         if urgency >= 6:
-            reasons.append(f"{p.pos} drops {urgency:.0f} if you wait")
+            cost = max(0.0, ppg_of(p) - outlooks[p.pos].ppg_next)
+            reasons.append(f"waiting on {p.pos} costs ~{cost:.1f} ppg")
         if _last_in_tier(p, available):
             score += LAST_IN_TIER_BONUS * nm
             reasons.append(f"last {p.pos} in tier {p.tier}")
-        if sm > 1.02:
-            reasons.append(f"{strategy.name} +{(sm - 1) * 100:.0f}%")
-        elif sm < 0.98:
-            reasons.append(f"{strategy.name} -{(1 - sm) * 100:.0f}%")
+        if strat_m > 1.02:
+            reasons.append(f"{strategy.name} +{(strat_m - 1) * 100:.0f}%")
+        elif strat_m < 0.98:
+            reasons.append(f"{strategy.name} -{(1 - strat_m) * 100:.0f}%")
+        if gate < 1.0:
+            reasons.append(f"K/DEF too early -{(1 - gate) * 100:.0f}%")
         if p.adp is not None and p.adp - now_pick >= 10:
             reasons.append(f"value (ADP {p.adp:.0f})")
         if p.injury is not None and p.injury >= 0.65:

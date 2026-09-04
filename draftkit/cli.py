@@ -220,7 +220,7 @@ class Draft:
             print(f"   unlikely to reach you: {', '.join(longshots[:6])}")
         print()
         print(f"{'pos':<4}{'best now':<26}{'likely best at your next pick':<32}"
-              f"{'drop':>5} {'~gone':>5}")
+              f"{'ppg now':>8} {'ppg next':>9} {'~gone':>5}")
         for pos in POSITIONS:
             o = outlooks[pos]
             if o.best_now is None:
@@ -228,7 +228,8 @@ class Draft:
             bn = f"{o.best_now.name[:20]} (rk {o.best_now.rank})"
             ln = (f"{o.likely_next.name[:20]} (rk {o.likely_next.rank})"
                   if o.likely_next and nxt else "-")
-            print(f"{pos:<4}{bn:<26}{ln:<32}{o.dropoff:>5.0f} {o.n_expected_gone:>5.1f}")
+            print(f"{pos:<4}{bn:<26}{ln:<32}{o.ppg_now:>8.1f} {o.ppg_next:>9.1f} "
+                  f"{o.n_expected_gone:>5.1f}")
 
     def board(self, pos: Optional[str], n: int) -> None:
         avail = self.available()
