@@ -3,6 +3,7 @@
 
   python fetch_adp.py https://www.draftsharks.com/adp/ppr/cbs-consensus-espn-sleeper/12
   python fetch_adp.py --text pasted.txt        # text copied from any ADP table
+  python fetch_adp.py --text pasted.txt --col 4  # 4th number in each row (e.g. Sleeper)
 
 The HTML mode looks for a table whose header has an "ADP" column and a
 player/name column. The text mode scans for "<name> <POS> <TEAM> ... <number>"
@@ -106,9 +107,9 @@ def rows_from_text(text):
             name, team = " ".join(nt[:-1]), team or nt[-1]
         if len(name) < 3:
             continue
-        if name.lower() in seen or name.lower() in ("player", "name"):
+        if (name.lower(), pos) in seen or name.lower() in ("player", "name"):
             continue
-        seen.add(name.lower())
+        seen.add((name.lower(), pos))
         out.append((name, pos, team, adp))
     return out
 
@@ -118,10 +119,12 @@ def main():
     ap.add_argument("source", help="URL, or a file path with --text")
     ap.add_argument("--text", action="store_true", help="source is a text file of pasted rows")
     ap.add_argument("-o", "--out", default=OUT)
+    ap.add_argument("--col", type=int, default=1,
+                    help="which ADP number to use when a row has several (1 = first)")
     a = ap.parse_args()
     if a.text:
         with open(a.source, encoding="utf-8-sig") as f:
-            rows = rows_from_text(f.read())
+            rows = rows_from_text(f.read(), a.col)
     else:
         req = urllib.request.Request(a.source, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=20) as resp:
