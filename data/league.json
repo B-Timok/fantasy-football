@@ -1,0 +1,10 @@
+{
+  "teams": 12,
+  "rounds": 15,
+  "scoring": "ppr",
+  "snake": true,
+  "roster": {"QB": 1, "RB": 2, "WR": 2, "TE": 1, "FLEX": 1, "K": 1, "DEF": 1, "BN": 6},
+  "flex_positions": ["RB", "WR", "TE"],
+  "sleeper_draft_id": "",
+  "sleeper_username": ""
+}
