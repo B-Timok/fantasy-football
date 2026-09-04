@@ -144,68 +144,106 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
     return notes
 
 
+class PlayerIndex:
+    """Fuzzy lookup: exact normalized name; last name + first initial with the
+    same shape ("j gibbs" -> Jahmyr Gibbs, "a brown" -> A.J. Brown, "a st brown"
+    -> Amon-Ra St. Brown); unique last name; DEF by team/nickname."""
+
+    def __init__(self, players: list[Player]):
+        self.players = players
+        self.by_key: dict[str, list[Player]] = {}
+        self.by_last: dict[str, list[Player]] = {}
+        self.teams = {p.team for p in players if p.team}
+        for p in players:
+            self.by_key.setdefault(p.key, []).append(p)
+            self.by_last.setdefault(p.key.split()[-1], []).append(p)
+
+    def find(self, raw_name: str, pos: Optional[str] = None,
+             team: str = "") -> Optional[Player]:
+        toks = raw_name.split()
+        if len(toks) > 1 and toks[-1].upper() in self.teams and toks[-1].isupper():
+            toks = toks[:-1]
+        key = normalize_name(" ".join(toks))
+        if not key:
+            return None
+        parts = key.split()
+
+        def narrow(cands):
+            return [c for c in cands if c.pos == pos] if pos else cands
+
+        cands = narrow(self.by_key.get(key, []))
+        if not cands and len(parts) >= 2:
+            tail, initial = parts[1:], parts[0][0]
+            pool = [c for c in narrow(self.by_last.get(parts[-1], [])) if c.key[0] == initial]
+            cands = [c for c in pool if c.key.split()[1:] == tail]
+            if not cands:
+                cands = [c for c in pool if c.key.endswith(" " + " ".join(tail))]
+        if not cands:
+            cands = narrow(self.by_last.get(parts[-1], []))
+            if len(cands) != 1:
+                cands = []
+        if not cands and pos == "DEF":
+            team = (team or "").upper()
+            cands = [c for c in self.players if c.pos == "DEF" and
+                     (c.team == team or parts[-1] in c.key.split())]
+        return cands[0] if len(cands) == 1 else None
+
+
 def apply_adp(players: list[Player], path: str, replace: bool = False) -> int:
     return apply_adp_full(players, path, replace)[0]
 
 
 def apply_adp_full(players: list[Player], path: str, replace: bool = False):
-    """Merge an ADP CSV (name, adp[, pos, team]) into players.
-
-    Matching order: exact normalized name; last name + first initial (so
-    "J. Gibbs" matches Jahmyr Gibbs); unique last name. Position narrows each
-    step when the CSV has it. Returns number matched."""
+    """Merge an ADP CSV (name, adp[, pos, team]) into players. Returns
+    (number matched, unmatched rows)."""
     if not path or not os.path.exists(path):
         return 0, []
     rows = _read_rows(path)
-    unmatched: list[dict] = []
-    by_key: dict[str, list[Player]] = {}
-    by_last: dict[str, list[Player]] = {}
-    teams = {p.team for p in players if p.team}
-    for p in players:
-        by_key.setdefault(p.key, []).append(p)
-        by_last.setdefault(p.key.split()[-1], []).append(p)
-    matched = 0
+    idx = PlayerIndex(players)
+    matched, unmatched = 0, []
     for d in rows:
         adp = _to_float(d.get("adp")) or _to_float(d.get("rank"))
         if adp is None:
             continue
-        raw = d.get("name", "").strip()
-        # drop a trailing team code that got glued onto the name ("J. Gibbs DET")
-        toks = raw.split()
-        if len(toks) > 1 and toks[-1].upper() in teams and toks[-1].isupper():
-            toks = toks[:-1]
-        key = normalize_name(" ".join(toks))
-        if not key:
-            continue
-        parts = key.split()
         pos, _ = _split_pos_field(d.get("pos", ""))
+        p = idx.find(d.get("name", ""), pos, d.get("team", ""))
+        if p is None:
+            unmatched.append({"name": d.get("name", "").strip(), "pos": pos,
+                              "team": d.get("team", ""), "adp": adp})
+        elif replace or p.adp is None:
+            p.adp = adp
+            matched += 1
+    return matched, unmatched
 
-        def narrow(cands):
-            return [c for c in cands if c.pos == pos] if pos else cands
 
-        cands = narrow(by_key.get(key, []))
-        if not cands and len(parts) >= 2:
-            # "j gibbs" -> Jahmyr Gibbs; "a brown" -> A.J. Brown; "a st brown" -> Amon-Ra St. Brown
-            tail, initial = parts[1:], parts[0][0]
-            pool = [c for c in narrow(by_last.get(parts[-1], [])) if c.key[0] == initial]
-            cands = [c for c in pool if c.key.split()[1:] == tail]          # same shape
-            if not cands:
-                cands = [c for c in pool if c.key.endswith(" " + " ".join(tail))]
-        if not cands:
-            cands = narrow(by_last.get(parts[-1], []))
-            if len(cands) != 1:
-                cands = []
-        if not cands and pos == "DEF":
-            team = (d.get("team") or "").upper()
-            cands = [c for c in players if c.pos == "DEF" and
-                     (c.team == team or parts[-1] in c.key.split())]
-        if len(cands) == 1:
-            if replace or cands[0].adp is None:
-                cands[0].adp = adp
-                matched += 1
-        elif not cands:
-            unmatched.append({"name": " ".join(toks), "pos": pos, "team": d.get("team", ""),
-                              "adp": adp})
+DS_COLS = {"proj": "proj", "floor": "floor", "ceil": "ceil", "injury": "injury",
+           "games": "games", "bye": "bye"}
+
+
+def apply_draftsharks(players: list[Player], path: str):
+    """Attach projections / injury risk / bye / DS rank from draftsharks.csv.
+    Returns (matched, unmatched rows as dicts usable by add_unranked)."""
+    if not path or not os.path.exists(path):
+        return 0, []
+    with open(path, newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    idx = PlayerIndex(players)
+    matched, unmatched = 0, []
+    for d in rows:
+        pos = normalize_pos(d.get("pos", ""))
+        p = idx.find(d.get("name", ""), pos, d.get("team", ""))
+        if p is None or p.ds_rank is not None:   # rows come best-first; first match wins
+            unmatched.append({"name": d["name"], "pos": pos, "team": d.get("team", ""),
+                              "adp": _to_float(d.get("adp")) or 999.0, "ds": d})
+            continue
+        matched += 1
+        p.ds_rank = _to_int(d.get("ds_rank"))
+        for col, attr in DS_COLS.items():
+            v = _to_float(d.get(col))
+            if v is not None and (attr != "bye" or p.bye is None):
+                setattr(p, attr, int(v) if attr == "bye" else v)
+        if p.adp is None:
+            p.adp = _to_float(d.get("adp"))
     return matched, unmatched
 
 
@@ -222,8 +260,17 @@ def add_unranked(players: list[Player], rows: list[dict]) -> int:
         if not key or key in known:
             continue
         known.add(key)
-        players.append(Player(name=r["name"], pos=pos, rank=len(players) + 1,
-                              team=(r.get("team") or "").upper(), adp=r["adp"]))
+        p = Player(name=r["name"], pos=pos, rank=len(players) + 1,
+                   team=(r.get("team") or "").upper(),
+                   adp=r["adp"] if r["adp"] < 900 else None)
+        ds = r.get("ds")
+        if ds:
+            p.ds_rank = _to_int(ds.get("ds_rank"))
+            for col, attr in DS_COLS.items():
+                v = _to_float(ds.get(col))
+                if v is not None:
+                    setattr(p, attr, int(v) if attr == "bye" else v)
+        players.append(p)
         n += 1
     counters = {p: 0 for p in POSITIONS}
     for p in players:

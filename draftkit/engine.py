@@ -248,6 +248,8 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
             reasons.append(f"{strategy.name} -{(1 - sm) * 100:.0f}%")
         if p.adp is not None and p.adp - now_pick >= 10:
             reasons.append(f"value (ADP {p.adp:.0f})")
+        if p.injury is not None and p.injury >= 0.65:
+            reasons.append(f"injury risk {p.injury * 100:.0f}%")
         recs.append(Recommendation(p, score, value, pa, urgency, sm, nm, reasons))
     recs.sort(key=lambda r: -r.score)
     return recs[:top_n], outlooks

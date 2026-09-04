@@ -11,8 +11,9 @@ import sys
 from typing import Optional
 
 from . import sim, strategies
-from .data import (add_unranked, apply_adp, apply_adp_full, apply_positional_rankings,
-                   load_league, load_rankings, write_sample_rankings)
+from .data import (add_unranked, apply_adp, apply_adp_full, apply_draftsharks,
+                   apply_positional_rankings, load_league, load_rankings,
+                   write_sample_rankings)
 from . import engine
 from .engine import build_roster, p_available, recommend
 from .models import League, Player, POSITIONS, normalize_name, normalize_pos
@@ -51,7 +52,12 @@ def suggest_strategy(slot: int, teams: int) -> str:
             with open(path) as f:
                 row = json.load(f).get(str(slot), {})
             if row:
-                return max(row, key=lambda n: row[n]["mean"])
+                best = max(row, key=lambda n: row[n]["mean"])
+                base = row.get("balanced", {}).get("mean")
+                # only leave 'balanced' for a clear win; sub-point gaps are noise
+                if base is None or row[best]["mean"] - base >= 1.0:
+                    return best
+                return "balanced"
         except (ValueError, KeyError):
             pass
     return strategies.suggest_for_slot(slot, teams)
@@ -191,7 +197,7 @@ class Draft:
         print()
         yours_hdr = f"{'@yours':>6} " if not mine else ""
         print(f"{'#':>2} {'score':>6}  {'player':<26}{'pos':<5}{'rk':>4} {'tier':>4} {'adp':>5} "
-              f"{yours_hdr}{'@next':>5}  why")
+              f"{'bye':>3} {yours_hdr}{'@next':>5}  why")
         shown, longshots = 0, []
         for r in recs:
             p = r.player
@@ -206,8 +212,10 @@ class Draft:
             adp = f"{p.adp:.0f}" if p.adp is not None else "-"
             avail_s = f"{r.p_avail_next * 100:.0f}%" if nxt else "-"
             yours_s = f"{p_yours * 100:.0f}% " if not mine else ""
+            bye = str(p.bye) if p.bye else "-"
             print(f"{shown:>2} {r.score:>6.1f}  {p.name[:25]:<26}{p.pos + str(p.pos_rank):<5}"
-                  f"{p.rank:>4} {tier:>4} {adp:>5} {yours_s:>6}{avail_s:>5}  {'; '.join(r.reasons)}")
+                  f"{p.rank:>4} {tier:>4} {adp:>5} {bye:>3} {yours_s:>6}{avail_s:>5}  "
+                  f"{'; '.join(r.reasons)}")
         if longshots:
             print(f"   unlikely to reach you: {', '.join(longshots[:6])}")
         print()
@@ -493,9 +501,13 @@ def main(argv=None) -> int:
     players = load_rankings(rankings_path)
     notes = apply_positional_rankings(players, os.path.dirname(rankings_path))
     n_adp, unmatched = apply_adp_full(players, args.adp)
-    n_extra = add_unranked(players, unmatched)
+    ds_path = os.path.join(os.path.dirname(args.adp), "draftsharks.csv")
+    n_ds, ds_unmatched = apply_draftsharks(players, ds_path)
+    if n_ds:
+        print(f"Projections/injury/bye for {n_ds} players from draftsharks.csv")
+    n_extra = add_unranked(players, ds_unmatched + unmatched)
     if n_extra:
-        print(f"Added {n_extra} unranked players from ADP file (typeable, never recommended)")
+        print(f"Added {n_extra} unranked players (typeable, never recommended)")
     overrides = os.path.join(os.path.dirname(args.adp), "adp_overrides.csv")
     if os.path.exists(overrides):
         n_over = apply_adp(players, overrides, replace=True)

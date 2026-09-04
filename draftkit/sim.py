@@ -50,14 +50,25 @@ def opponent_pick(available: list[Player], counts: dict, rnd: int, league: Leagu
     return best
 
 
-def fill_ppg(players: list[Player]) -> dict:
-    """Estimated points per game for every player: real ppg where known,
-    otherwise the average of positional neighbours (rookies), else a default."""
+INJURY_W = 0.25   # expected fraction of the season lost per unit of injury risk
+
+
+def fill_ppg(players: list[Player], injury: bool = False) -> dict:
+    """Estimated points per game for every player: projected season points / 17
+    where known (draftsharks), else last season's ppg, else the average of
+    positional neighbours (rookies), else a default. With injury=True, scale
+    by expected availability."""
     est = {}
     by_pos = {pos: sorted([p for p in players if p.pos == pos], key=lambda p: p.pos_rank)
               for pos in POSITIONS}
     for pos, lst in by_pos.items():
         for i, p in enumerate(lst):
+            if p.proj is not None:
+                v = p.proj / 17.0
+                if injury and p.injury is not None:
+                    v *= 1.0 - INJURY_W * p.injury
+                est[p.key] = v
+                continue
             if p.ppg is not None:
                 est[p.key] = p.ppg
                 continue

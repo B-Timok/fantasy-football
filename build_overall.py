@@ -61,8 +61,28 @@ def resolve(line, players):
         f"{p['name']} ({p['pos']} {p.get('team', '')})" for p in by_last)
 
 
+def load_ds_ranks(players):
+    """draftsharks rank per player key, for ordering the unlisted tail."""
+    path = os.path.join(DATA, "draftsharks.csv")
+    if not os.path.exists(path):
+        return {}
+    from draftkit.data import PlayerIndex
+    from draftkit.models import Player
+    objs = [Player(name=p["name"], pos=p["pos"], rank=i + 1, team=p.get("team", ""))
+            for i, p in enumerate(players)]
+    idx = PlayerIndex(objs)
+    out = {}
+    with open(path, newline="", encoding="utf-8") as f:
+        for d in csv.DictReader(f):
+            hit = idx.find(d["name"], normalize_pos(d["pos"]), d.get("team", ""))
+            if hit is not None and hit.key not in out:
+                out[hit.key] = int(d["ds_rank"])
+    return out
+
+
 def main():
     players = load_positional()
+    ds = load_ds_ranks(players)
     out, problems, used = [], [], set()
     tier = 0
     with open(os.path.join(DATA, "overall.txt"), encoding="utf-8") as f:
@@ -88,9 +108,12 @@ def main():
     rest = [p for p in players if p["key"] not in used]
 
     def sort_key(p):
+        # draftsharks order first; anything they don't rank goes after, by tier then ppg
+        if p["key"] in ds:
+            return (0, ds[p["key"]], 0, 0)
         grp = {"K": 1, "DEF": 2}.get(p["pos"], 0)
         ppg = float(p.get("ppg") or 0)
-        return (grp, p["tier"], -ppg, p["pos_rank"])
+        return (1, grp, p["tier"], -ppg)
     for p in sorted(rest, key=sort_key):
         out.append((p, ""))
     path = os.path.join(DATA, "rankings.csv")
@@ -100,8 +123,9 @@ def main():
         for r, (p, ovr_tier) in enumerate(out, 1):
             w.writerow([r, p["name"], p["pos"], p.get("team", ""), p["tier"], ovr_tier,
                         p["pos_rank"], p.get("ppg", "")])
+    n_ds = sum(1 for p in rest if p["key"] in ds)
     print(f"wrote {len(out)} players to {path}: {n_listed} from overall.txt, "
-          f"{len(rest)} appended from positional lists")
+          f"{len(rest)} appended ({n_ds} ordered by draftsharks rank, rest by tier)")
     for pr in problems:
         print("  PROBLEM: " + pr)
     return 1 if problems else 0

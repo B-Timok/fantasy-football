@@ -18,13 +18,14 @@ import sys
 import time
 
 from draftkit import engine, sim, strategies
-from draftkit.data import (add_unranked, apply_adp, apply_adp_full, apply_positional_rankings,
-                           load_league, load_rankings)
+from draftkit.data import (add_unranked, apply_adp, apply_adp_full, apply_draftsharks,
+                           apply_positional_rankings, load_league, load_rankings)
 from draftkit.models import League
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 _PLAYERS = _LEAGUE = _PPG = None
+INJURY = False
 
 
 def load_all():
@@ -32,15 +33,17 @@ def load_all():
     players = load_rankings(os.path.join(DATA, "rankings.csv"))
     apply_positional_rankings(players, DATA)
     _, unmatched = apply_adp_full(players, os.path.join(DATA, "adp.csv"))
-    add_unranked(players, unmatched)
+    _, ds_unmatched = apply_draftsharks(players, os.path.join(DATA, "draftsharks.csv"))
+    add_unranked(players, ds_unmatched + unmatched)
     ov = os.path.join(DATA, "adp_overrides.csv")
     if os.path.exists(ov):
         apply_adp(players, ov, replace=True)
-    return players, league, sim.fill_ppg(players)
+    return players, league, sim.fill_ppg(players, injury=INJURY)
 
 
-def _init(params):
-    global _PLAYERS, _LEAGUE, _PPG
+def _init(params, injury=False):
+    global _PLAYERS, _LEAGUE, _PPG, INJURY
+    INJURY = injury
     _PLAYERS, _LEAGUE, _PPG = load_all()
     if params:
         engine.set_params(params)
@@ -57,18 +60,20 @@ def _run_cell(args):
     return slot, strat_name, statistics.mean(scores), statistics.pstdev(scores)
 
 
-def run_table(slots, strat_names, sims, workers, params=None, noise=1.0, seed=0, quiet=False):
+def run_table(slots, strat_names, sims, workers, params=None, noise=1.0, seed=0, quiet=False,
+              injury=False):
     jobs = [(s, n, sims, seed * 1000 + s * 17 + i, noise)
             for s in slots for i, n in enumerate(strat_names)]
     t0 = time.time()
-    with mp.Pool(workers, initializer=_init, initargs=(params,)) as pool:
+    with mp.Pool(workers, initializer=_init, initargs=(params, injury)) as pool:
         results = pool.map(_run_cell, jobs)
     table = {}
     for slot, name, mean, sd in results:
         table.setdefault(slot, {})[name] = (mean, sd)
     if not quiet:
         print(f"\n{sims} drafts per cell, {len(jobs)} cells, {time.time() - t0:.0f}s. "
-              f"Score = est. starting-lineup ppg + 0.3 x top-3 bench RB/WR ppg.\n")
+              f"Score = projected starting-lineup ppg + 0.3 x top-3 bench RB/WR ppg"
+              f"{', injury-adjusted' if injury else ''}.\n")
         print(f"{'slot':>4} " + " ".join(f"{n:>13}" for n in strat_names) + "   best")
         for slot in slots:
             row = table[slot]
@@ -121,6 +126,8 @@ def main():
     ap.add_argument("--noise", type=float, default=1.0, help="opponent ADP noise multiplier")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--tune", action="store_true", help="random-search engine weights")
+    ap.add_argument("--injury", action="store_true",
+                    help="discount projections by draftsharks injury risk")
     ap.add_argument("--trials", type=int, default=12)
     a = ap.parse_args()
     slots = []
@@ -136,7 +143,7 @@ def main():
     if a.tune:
         tune(slots, a.sims, a.workers, a.trials, a.seed)
         return 0
-    table = run_table(slots, names, a.sims, a.workers, params, a.noise, a.seed)
+    table = run_table(slots, names, a.sims, a.workers, params, a.noise, a.seed, injury=a.injury)
     out = os.path.join(DATA, "sim_results.json")
     with open(out, "w") as f:
         json.dump({str(s): {n: {"mean": v[0], "sd": v[1]} for n, v in row.items()}

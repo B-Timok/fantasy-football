@@ -41,6 +41,12 @@ class Player:
     adp: Optional[float] = None
     bye: Optional[int] = None
     ppg: Optional[float] = None
+    proj: Optional[float] = None      # projected season points (draftsharks)
+    floor: Optional[float] = None
+    ceil: Optional[float] = None
+    injury: Optional[float] = None    # 0..1 injury risk
+    games: Optional[float] = None
+    ds_rank: Optional[int] = None     # draftsharks overall rank
     key: str = field(default="", repr=False)
 
     def __post_init__(self):

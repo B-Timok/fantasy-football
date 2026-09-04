@@ -1,0 +1,1765 @@
+Tier 1
+1
+DET logo
+J Gibbs
+DET
+RB1
+
+17	1.01	6	0.9%	54%	294	353	359	413	100
+2
+LAR logo
+P Nacua
+LAR
+WR1
+
+17	1.04	11	-3.1%	51%	270	330	355	398	98
+3
+ATL logo
+B Robinson
+ATL
+RB2
+
+17	1.02	11	-3.2%	25%	294	342	345	404	95
+4
+CIN logo
+J Chase
+CIN
+WR2
+
+17	1.03	6	4%	37%	291	327	339	400	95
+5
+SF logo
+C McCaffrey
+SF
+RB3
+
+17	1.05	8	0.7%	78%	275	316	331	411	89
+Tier 2
+6
+SEA logo
+J Smith-Njigba
+SEA
+WR3
+
+17	1.06	11	-0.1%	39%	286	304	315	375	83
+7
+DET logo
+A St. Brown
+DET
+WR4
+
+17	1.08	6	-1%	37%	288	299	316	357	81
+8
+DAL logo
+C Lamb
+DAL
+WR5
+
+17	1.10	14	-0.7%	44%	262	270	301	361	74
+9
+MIN logo
+J Jefferson
+MIN
+WR6
+
+17	1.11	6	4.9%	36%	248	263	292	379	73
+10
+IND logo
+J Taylor
+IND
+RB4
+
+17	1.07	13	1.7%	37%	254	297	299	364	70
+11
+BUF logo
+J Cook
+BUF
+RB5
+
+17	1.09	7	-4.2%	36%	253	267	294	362	68
+12
+KC logo
+K Walker III
+KC
+RB6
+
+17	2.05	5	0.6%	34%	231	247	278	361	61
+13
+PHI logo
+S Barkley
+PHI
+RB7
+
+17	2.02	10	4.4%	35%	235	254	270	368	60
+Tier 3
+14
+ATL logo
+D London
+ATL
+WR7
+
+17	2.08	11	0.4%	73%	248	262	272	330	59
+15
+NE logo
+A Brown
+NE
+WR8
+
+17	2.06	11	-2.5%	61%	227	257	271	344	59
+16
+LVR logo
+A Jeanty
+LVR
+RB8
+
+16	2.04	13	-3.1%	39%	209	246	270	367	58
+17
+MIA logo
+D Achane
+MIA
+RB9
+
+17	1.12	6	0.8%	68%	234	276	272	351	57
+18
+HOU logo
+N Collins
+HOU
+WR9
+
+17	2.11	8	4.4%	49%	234	252	268	333	57
+19
+CIN logo
+C Brown
+CIN
+RB10
+
+17	2.01	6	-4%	45%	227	263	267	355	56
+20
+LAC logo
+O Hampton
+LAC
+RB11
+
+17	2.03	7	0.6%	73%	224	248	261	362	55
+21
+DAL logo
+G Pickens
+DAL
+WR10
+
+17	2.10	14	-0.7%	36%	228	248	262	332	54
+22
+KC logo
+R Rice
+KC
+WR11
+
+17	3.07	5	-2.6%	74%	208	243	266	330	53
+23
+LVR logo
+B Bowers
+LVR
+TE1
+
+17	2.09	13	-1%	81%	236	246	260	312	53
+24
+BAL logo
+D Henry
+BAL
+RB12
+
+17	2.07	13	-0.1%	33%	223	252	263	334	51
+25
+ARI logo
+T McBride
+ARI
+TE2
+
+17	3.01	14	-3.6%	46%	236	243	254	305	51
+26
+BUF logo
+J Allen
+BUF
+QB1
+
+17	2.12	7	-3.4%	33%	302	358	373	436	49
+Tier 4
+27
+NO logo
+C Olave
+NO
+WR12
+
+17	3.02	8	0.9%	75%	216	244	257	308	48
+28
+NYG logo
+M Nabers
+NYG
+WR13
+
+16	3.03	8	3.7%	39%	192	235	243	341	48
+29
+BAL logo
+Z Flowers
+BAL
+WR14
+
+17	3.10	13	-0.3%	36%	225	238	253	296	46
+30
+PHI logo
+D Smith
+PHI
+WR15
+
+17	3.08	10	6.6%	50%	223	234	243	306	44
+31
+NYJ logo
+B Hall
+NYJ
+RB13
+
+17	3.09	13	-2.5%	43%	212	235	250	317	43
+32
+CIN logo
+T Higgins
+CIN
+WR16
+
+17	4.03	6	4%	66%	217	227	243	302	43
+33
+CHI logo
+C Loveland
+CHI
+TE3
+
+17	4.06	10	-3.6%	60%	197	221	240	288	43
+34
+ARI logo
+J Love
+ARI
+RB14
+
+17	3.04	14	0.1%	34%	208	237	239	340	43
+35
+NYJ logo
+G Wilson
+NYJ
+WR17
+
+17	4.02	13	-1%	38%	219	228	243	299	42
+36
+DAL logo
+J Williams
+DAL
+RB15
+
+17	3.05	14	2.9%	43%	209	229	243	309	40
+37
+DEN logo
+J Waddle
+DEN
+WR18
+
+17	4.08	10	-2.5%	37%	199	219	234	300	38
+38
+IND logo
+T Warren
+IND
+TE4
+
+17	5.04	13	1.5%	36%	184	203	224	266	36
+39
+BAL logo
+L Jackson
+BAL
+QB2
+
+17	4.07	13	1.1%	42%	299	324	340	439	35
+40
+NO logo
+T Etienne
+NO
+RB16
+
+17	3.11	8	1.8%	45%	209	222	227	314	35
+Tier 5
+41
+LAR logo
+D Adams
+LAR
+WR19
+
+17	5.03	11	-3.1%	49%	189	211	230	290	34
+42
+GB logo
+C Watson
+GB
+WR20
+
+17	6.01	11	1.3%	25%	188	197	229	293	34
+43
+LAR logo
+K Williams
+LAR
+RB17
+
+17	3.06	11	6.4%	52%	202	225	226	308	33
+44
+CAR logo
+T McMillan
+CAR
+WR22
+
+17	3.12	5	-1.3%	37%	199	220	224	291	33
+45
+CHI logo
+L Burden III
+CHI
+WR21
+
+17	5.02	10	-2.5%	54%	189	206	222	300	33
+46
+TB logo
+E Egbuka
+TB
+WR23
+
+17	4.01	10	2.6%	42%	188	214	222	297	32
+47
+LAC logo
+L McConkey
+LAC
+WR24
+
+17	4.04	7	-2.6%	42%	194	219	220	295	32
+48
+CHI logo
+D Swift
+CHI
+RB18
+
+17	4.09	10	-3.6%	42%	191	210	225	299	30
+49
+CIN logo
+J Burrow
+CIN
+QB4
+
+17	5.09	6	3.2%	34%	290	309	337	421	29
+50
+NE logo
+D Maye
+NE
+QB5
+
+17	5.07	11	-2.8%	35%	292	315	335	422	29
+51
+PHI logo
+J Hurts
+PHI
+QB3
+
+17	6.07	10	8.8%	33%	289	311	332	432	29
+52
+WAS logo
+J Daniels
+WAS
+QB6
+
+17	6.04	7	-0.4%	41%	286	313	332	432	29
+53
+SF logo
+M Evans
+SF
+WR26
+
+17	6.03	8	-3.2%	65%	173	196	217	295	29
+54
+WAS logo
+T McLaurin
+WAS
+WR25
+
+17	5.05	7	-2.4%	37%	190	212	216	287	29
+55
+NYG logo
+C Skattebo
+NYG
+RB19
+
+17	4.05	8	2.2%	72%	176	217	214	302	28
+56
+TB logo
+B Irving
+TB
+RB20
+
+17	5.01	10	-2.2%	63%	184	206	211	298	28
+57
+DET logo
+J Williams
+DET
+WR27
+
+17	5.06	6	-1%	36%	185	207	210	286	27
+58
+HOU logo
+D Montgomery
+HOU
+RB21
+
+17	4.12	8	2%	85%	178	196	207	296	27
+59
+CHI logo
+R Odunze
+CHI
+WR28
+
+17	5.12	10	-2.5%	36%	181	197	206	297	27
+60
+NE logo
+R Stevenson
+NE
+RB22
+
+17	6.05	11	-1.9%	64%	173	180	206	289	27
+61
+GB logo
+T Kraft
+GB
+TE5
+
+17	6.09	11	-3.3%	39%	167	182	196	257	27
+62
+CLE logo
+H Fannin Jr.
+CLE
+TE7
+
+17	6.10	11	3.4%	57%	173	185	197	250	26
+63
+DET logo
+S LaPorta
+DET
+TE6
+
+17	7.05	6	-2%	60%	172	190	196	254	26
+Tier 6
+64
+JAC logo
+T Lawrence
+JAC
+QB7
+
+17	8.04	7	4.5%	34%	279	304	328	414	26
+65
+LAC logo
+J Herbert
+LAC
+QB8
+
+17	7.12	7	-2.8%	36%	280	297	326	418	26
+66
+CHI logo
+C Williams
+CHI
+QB9
+
+17	7.04	10	-3.5%	20%	278	302	324	421	26
+67
+CLE logo
+Q Judkins
+CLE
+RB23
+
+17	4.10	11	0.6%	48%	181	204	201	291	26
+68
+SF logo
+B Purdy
+SF
+QB10
+
+17	10.09	8	-4%	36%	277	297	326	414	25
+69
+MIN logo
+K Murray
+MIN
+QB11
+
+17	12.02	6	4%	33%	273	283	325	419	25
+70
+DAL logo
+D Prescott
+DAL
+QB12
+
+17	7.09	14	0.5%	34%	282	300	324	412	25
+71
+JAC logo
+P Washington
+JAC
+WR30
+
+17	6.02	7	4%	0%	175	188	211	275	25
+72
+BUF logo
+D Moore
+BUF
+WR29
+
+17	4.11	7	0.7%	54%	175	197	209	282	25
+73
+PIT logo
+J Warren
+PIT
+RB24
+
+17	6.06	9	-2.1%	66%	161	187	201	276	25
+74
+NYG logo
+J Dart
+NYG
+QB13
+
+17	9.02	8	4.8%	36%	277	298	318	417	24
+75
+JAC logo
+B Tuten
+JAC
+RB25
+
+17	5.08	7	0.9%	43%	157	183	183	303	24
+76
+NE logo
+T Henderson
+NE
+RB26
+
+17	5.10	11	-1.9%	64%	154	181	183	302	23
+77
+SEA logo
+J Price
+SEA
+RB27
+
+17	5.11	11	5.6%	29%	146	180	182	297	23
+Tier 7
+78
+DEN logo
+B Nix
+DEN
+QB14
+
+17	10.03	10	-3.7%	28%	279	291	310	410	22
+79
+PIT logo
+D Metcalf
+PIT
+WR31
+
+17	7.03	9	-2.6%	36%	174	188	207	263	22
+80
+ATL logo
+K Pitts
+ATL
+TE8
+
+17	6.12	11	4.8%	53%	170	179	185	246	22
+81
+PIT logo
+R Dowdle
+PIT
+RB28
+
+17	7.08	9	-2.1%	27%	157	174	183	280	22
+82
+CAR logo
+J Brooks
+CAR
+RB29
+
+17	7.07	5	-6%	35%	144	161	175	301	22
+83
+KC logo
+P Mahomes
+KC
+QB15
+
+17	10.04	5	-3.2%	37%	276	295	307	414	21
+84
+TEN logo
+C Tate
+TEN
+WR32
+
+17	6.08	9	5%	40%	168	174	200	280	21
+85
+ARI logo
+M Harrison Jr.
+ARI
+WR33
+
+17	6.11	14	-0.8%	55%	173	181	196	277	21
+86
+SF logo
+G Kittle
+SF
+TE9
+
+17	8.06	8	-3.6%	44%	141	184	186	260	21
+87
+DET logo
+J Goff
+DET
+QB16
+
+17	11.02	6	-0.9%	23%	279	279	303	403	20
+88
+GB logo
+J Reed
+GB
+WR34
+
+17	10.01	11	1.3%	36%	167	181	201	266	20
+89
+TEN logo
+T Pollard
+TEN
+RB30
+
+17	7.02	9	2.9%	35%	151	170	175	270	20
+90
+GB logo
+M Lloyd
+GB
+RB31
+
+17	10.06	11	-2.2%	72%	141	158	168	289	20
+91
+LAR logo
+M Stafford
+LAR
+QB17
+
+17	9.07	11	-0%	39%	278	283	299	403	19
+92
+PIT logo
+M Pittman Jr.
+PIT
+WR36
+
+17	8.08	9	-2.6%	60%	173	179	201	257	19
+93
+DEN logo
+C Sutton
+DEN
+WR35
+
+17	7.01	10	-2.5%	43%	171	184	198	264	19
+94
+DEN logo
+J Dobbins
+DEN
+RB32
+
+17	8.05	10	0.1%	39%	145	160	170	269	19
+95
+GB logo
+J Love
+GB
+QB18
+
+17	13.01	11	-0.3%	82%	277	278	298	402	18
+96
+NO logo
+T Shough
+NO
+QB19
+
+17	13.05	8	0.5%	17%	273	274	297	406	18
+Tier 8
+97
+TB logo
+B Mayfield
+TB
+QB20
+
+17	12.03	10	-0.8%	37%	278	278	292	406	18
+98
+MIN logo
+J Addison
+MIN
+WR37
+
+17	9.08	6	4.9%	37%	162	167	196	266	18
+99
+TB logo
+C Godwin
+TB
+WR39
+
+17	8.02	10	2.6%	40%	154	175	190	280	18
+100
+JAC logo
+B Thomas Jr.
+JAC
+WR38
+
+17	7.06	7	4%	35%	164	178	188	279	18
+101
+DEN logo
+R Harvey
+DEN
+RB33
+
+17	7.10	10	0.1%	36%	136	154	164	271	18
+102
+WAS logo
+J Croskey-Merritt
+WAS
+RB34
+
+17	9.12	7	4.2%	30%	132	140	163	272	18
+103
+MIN logo
+J Mason
+MIN
+RB35
+
+17	9.03	6	-0.1%	39%	132	146	163	268	18
+104
+LAC logo
+Q Johnston
+LAC
+WR40
+
+17	9.01	7	-2.6%	56%	157	170	192	270	17
+105
+CAR logo
+C Hubbard
+CAR
+RB36
+
+17	8.03	5	-6%	36%	129	152	153	277	17
+106
+JAC logo
+J Meyers
+JAC
+WR41
+
+17	10.10	7	4%	37%	160	168	193	260	16
+107
+IND logo
+J Downs
+IND
+WR43
+
+17	9.10	13	-0.8%	61%	157	167	190	266	16
+108
+WAS logo
+S Diggs
+WAS
+WR42
+
+17	9.06	7	-2.4%	31%	154	167	186	275	16
+109
+TEN logo
+T Spears
+TEN
+RB37
+
+17	12.10	9	2.9%	37%	130	137	159	257	16
+110
+TB logo
+K Gainwell
+TB
+RB39
+
+17	8.11	10	-2.2%	31%	135	157	151	263	16
+111
+LAR logo
+B Corum
+LAR
+RB38
+
+17	8.09	11	6.4%	33%	135	138	148	272	16
+112
+CHI logo
+K Monangai
+CHI
+RB40
+
+17	9.04	10	-3.6%	0%	132	144	148	263	16
+113
+KC logo
+T Kelce
+KC
+TE10
+
+17	9.05	5	1.9%	42%	158	174	183	220	15
+Tier 9
+114
+WAS logo
+R White
+WAS
+RB41
+
+17	10.02	7	4.2%	39%	124	145	145	259	15
+115
+MIA logo
+M Willis
+MIA
+QB21
+
+17	14.06	6	-2%	15%	264	264	275	410	14
+116
+DAL logo
+B Aubrey
+DAL
+K1
+
+17	8.12	14	-3.5%	8%	157	175	176	190	14
+117
+HOU logo
+W Marks
+HOU
+RB42
+
+17	11.08	8	2%	0%	125	117	139	265	14
+118
+IND logo
+D Jones
+IND
+QB22
+
+17	16.02	13	1.6%	36%	260	261	276	404	13
+119
+KC logo
+X Worthy
+KC
+WR44
+
+17	11.05	5	-2.6%	35%	149	156	182	266	13
+120
+MIN logo
+A Jones
+MIN
+RB43
+
+17	10.11	6	-0.1%	65%	114	150	143	248	13
+121
+NE logo
+R Doubs
+NE
+WR45
+
+17	11.04	11	-2.5%	37%	155	163	180	264	12
+122
+CLE logo
+K Concepcion
+CLE
+WR47
+
+17	11.01	11	4.3%	29%	148	151	180	265	12
+123
+GB logo
+J Jacobs
+GB
+RB44
+
+9	0	11	-2.2%	67%	36	103	148	200	12
+124
+SEA logo
+Z Charbonnet
+SEA
+RB45
+
+10	12.12	11	5.6%	37%	71	136	134	213	12
+125
+UNS logo
+D Moore
+UNS
+WR46
+
+17	34.12	18	-	0%	111	6	117	420	12
+126
+ARI logo
+M Wilson
+ARI
+WR48
+
+17	7.11	14	-0.8%	42%	150	171	179	263	11
+127
+IND logo
+A Pierce
+IND
+WR49
+
+17	8.07	13	-0.8%	67%	149	174	174	269	11
+128
+TEN logo
+W Robinson
+TEN
+WR50
+
+17	8.10	9	5%	36%	154	169	177	258	10
+129
+LAC logo
+C Dicker
+LAC
+K2
+
+17	11.10	7	-3.1%	9%	151	160	169	181	10
+130
+PHI logo
+M Lemon
+PHI
+WR52
+
+17	9.09	10	6.6%	33%	144	147	168	279	10
+131
+GB logo
+M Golden
+GB
+WR51
+
+17	10.12	11	1.3%	37%	150	164	167	278	10
+132
+UNS logo
+S Shepard
+UNS
+WR53
+
+17	29.02	18	-	26%	105	0	131	380	10
+Tier 10
+133
+CLE logo
+D Sampson
+CLE
+RB46
+
+17	14.02	11	0.6%	34%	109	99	125	232	10
+134
+LAC logo
+K Mitchell
+LAC
+RB47
+
+17	13.06	7	0.6%	33%	100	88	116	255	10
+135
+TEN logo
+C Ward
+TEN
+QB23
+
+17	17.06	9	6.3%	39%	252	232	263	402	9
+136
+HOU logo
+H Texans
+HOU
+DEF1
+
+17	28.06	8	-4%	0%	110	110	125	140	9
+137
+JAC logo
+C Rodriguez
+JAC
+RB48
+
+17	11.09	7	0.9%	27%	99	104	108	255	8
+138
+UNS logo
+N Westbrook-Ikhine
+UNS
+WR54
+
+17	61.01	18	-	0%	93	27	106	423	8
+139
+HOU logo
+C Stroud
+HOU
+QB24
+
+17	15.12	8	4.4%	29%	264	262	270	388	7
+140
+UNS logo
+G Dortch
+UNS
+WR55
+
+17	39.06	18	-	18%	130	36	139	327	7
+Tier 11
+141
+BUF logo
+D Kincaid
+BUF
+TE11
+
+17	10.08	7	-1.4%	62%	142	158	161	222	7
+142
+LVR logo
+M Washington Jr.
+LVR
+RB49
+
+17	12.11	13	-3.1%	21%	85	88	101	253	7
+143
+BUF logo
+K Shakir
+BUF
+WR56
+
+17	12.07	7	0.7%	35%	152	160	173	238	6
+144
+NO logo
+J Tyson
+NO
+WR58
+
+13	11.06	8	0.9%	45%	109	136	171	225	6
+145
+SF logo
+D Samuel
+SF
+WR57
+
+17	12.05	8	-3.2%	51%	135	156	164	264	6
+146
+PHI logo
+D Goedert
+PHI
+TE12
+
+17	11.03	10	7.1%	83%	144	160	164	208	6
+147
+HOU logo
+K Fairbairn
+HOU
+K3
+
+17	11.12	8	0.6%	0%	147	166	158	177	6
+148
+DEN logo
+D Broncos
+DEN
+DEF2
+
+17	31.06	10	6.2%	0%	104	105	121	135	6
+149
+SEA logo
+S Seahawks
+SEA
+DEF3
+
+17	12.08	11	-4.2%	0%	103	109	121	133	6
+150
+ARI logo
+T Allgeier
+ARI
+RB50
+
+17	11.11	14	0.1%	23%	87	91	107	221	6
+151
+SEA logo
+S Darnold
+SEA
+QB27
+
+17	16.01	11	0.4%	29%	258	258	261	391	5
+152
+CAR logo
+B Young
+CAR
+QB25
+
+17	17.07	5	-0.8%	32%	245	252	247	396	5
+153
+ARI logo
+J Brissett
+ARI
+QB26
+
+13	19.08	14	-1.2%	10%	194	257	247	357	5
+154
+DAL logo
+J Ferguson
+DAL
+TE13
+
+17	10.05	14	-2.5%	55%	148	164	164	199	5
+155
+SF logo
+D Stribling
+SF
+WR60
+
+17	10.07	8	-3.2%	0%	136	147	153	276	5
+156
+JAC logo
+C Little
+JAC
+K4
+
+17	13.02	7	-0.7%	0%	145	148	151	180	5
+157
+UNS logo
+V Jefferson
+UNS
+WR59
+
+17	48.04	18	-	22%	107	5	118	367	5
+158
+PIT logo
+P Steelers
+PIT
+DEF4
+
+17	17.10	9	12.2%	0%	106	102	114	136	5
+159
+ATL logo
+B Robinson Jr.
+ATL
+RB51
+
+17	14.01	11	-3.2%	36%	86	83	103	216	5
+160
+BAL logo
+M Andrews
+BAL
+TE14
+
+17	11.07	13	3.6%	36%	140	159	159	212	4
+161
+CHI logo
+C Santos
+CHI
+K5
+
+17	19.07	10	-1.1%	0%	144	147	153	176	4
+Tier 12
+162
+SF logo
+E Pineiro
+SF
+K6
+
+17	16.09	8	2%	0%	144	145	152	173	4
+163
+CIN logo
+E McPherson
+CIN
+K7
+
+17	17.02	6	0.7%	0%	145	149	151	176	4
+164
+BAL logo
+B Ravens
+BAL
+DEF5
+
+17	18.03	13	13.1%	0%	106	98	114	134	4
+165
+NO logo
+A Kamara
+NO
+RB52
+
+16	13.09	8	1.8%	39%	77	99	109	226	4
+166
+NYG logo
+T Tracy Jr.
+NYG
+RB53
+
+17	13.07	8	2.2%	34%	67	66	96	225	4
+167
+PIT logo
+A Rodgers
+PIT
+QB28
+
+17	19.02	9	-2.1%	53%	253	219	258	385	3
+168
+NO logo
+J Johnson
+NO
+TE16
+
+17	13.03	8	-0.1%	45%	137	150	160	201	3
+169
+SEA logo
+R Shaheed
+SEA
+WR61
+
+17	12.06	11	-0.1%	38%	137	139	159	253	3
+170
+NYG logo
+I Likely
+NYG
+TE15
+
+17	9.11	8	3.2%	73%	143	159	157	208	3
+171
+SEA logo
+J Myers
+SEA
+K8
+
+17	12.09	11	1%	0%	147	164	150	175	3
+172
+LAR logo
+H Mevis
+LAR
+K10
+
+17	14.05	11	0.7%	0%	145	158	150	175	3
+173
+DET logo
+J Bates
+DET
+K9
+
+17	13.11	6	4.2%	8%	146	154	149	175	3
+174
+MIN logo
+M Vikings
+MIN
+DEF6
+
+17	16.03	6	-12.4%	0%	101	104	111	133	3
+175
+PHI logo
+P Eagles
+PHI
+DEF7
+
+17	19.03	10	-14.5%	0%	102	97	108	140	3
+176
+LAR logo
+L Rams
+LAR
+DEF8
+
+17	12.01	11	-5%	0%	102	106	108	140	3
+177
+DEN logo
+J Coleman
+DEN
+RB54
+
+17	13.04	10	0.1%	0%	74	54	83	245	3
+178
+NYJ logo
+G Smith
+NYJ
+QB29
+
+16	44.10	13	-4.4%	36%	214	235	241	387	2
+179
+LVR logo
+F Mendoza
+LVR
+QB30
+
+13	18.04	13	-6.2%	23%	178	241	240	356	2
+180
+JAC logo
+B Strange
+JAC
+TE17
+
+17	13.10	7	2.5%	48%	137	152	159	202	2
+181
+NE logo
+N Patriots
+NE
+DEF9
+
+17	18.12	11	0.2%	0%	98	95	113	128	2
+182
+BAL logo
+J Hill
+BAL
+RB55
+
+17	33.12	13	-0.1%	32%	87	94	96	193	2
+183
+CAR logo
+J Coker
+CAR
+WR62
+
+17	12.04	5	-1.3%	18%	137	155	150	258	1
+184
+MIN logo
+W Reichard
+MIN
+K11
+
+17	17.05	6	1%	0%	145	142	148	174	1
+Tier 13
+185
+GB logo
+T Smack
+GB
+K12
+
+17	18.07	11	0.6%	0%	140	145	149	174	1
+186
+TB logo
+J McMillan
+TB
+WR63
+
+17	16.05	10	2.6%	39%	127	125	149	261	1
+187
+CLE logo
+D Boston
+CLE
+WR64
+
+17	14.07	11	4.3%	42%	130	135	148	262	1
+188
+JAC logo
+J Jaguars
+JAC
+DEF10
+
+17	14.11	7	-2.7%	0%	100	94	108	133	1
+189
+LAC logo
+L Chargers
+LAC
+DEF11
+
+17	15.04	7	0.4%	0%	100	94	107	136	1
+190
+KC logo
+E Johnson
+KC
+RB56
+
+17	16.04	5	0.6%	18%	69	46	81	217	1
+191
+IND logo
+K Allen
+IND
+WR65
+
+17	14.12	13	-0.8%	49%	126	119	149	258	0
+192
+DEN logo
+W Lutz
+DEN
+K13
+
+17	21.07	10	-3.5%	0%	144	146	147	171	0
+193
+KC logo
+H Butker
+KC
+K14
+
+17	15.05	5	0.1%	0%	144	143	147	169	0
+194
+KC logo
+K Chiefs
+KC
+DEF12
+
+17	22.05	5	2.1%	0%	98	85	107	134	0
+195
+DET logo
+D Lions
+DET
+DEF13
+
+17	17.01	6	10.7%	0%	99	102	106	134	0
+196
+DET logo
+I Pacheco
+DET
+RB60
+
+12	13.12	6	0.9%	36%	45	93	88	149	0
+197
+DAL logo
+M Davis
+DAL
+RB57
+
+17	40.11	14	2.9%	0%	62	70	75	218	0
+198
+NYG logo
+N Harris
+NYG
+RB58
+
+17	20.01	8	2.2%	39%	58	64	73	222	0
+199
+NYJ logo
+B Allen
+NYJ
+RB59
+
+17	16.07	13	-2.5%	42%	68	78	71	214	0
+200
+BAL logo
+T Loop
+BAL
+K15
+
+17	15.06	13	-1.6%	0%	134	150	146	175	-1
+201
+BUF logo
+B Bills
+BUF
+DEF14
+
+17	22.04	7	0.4%	0%	98	97	106	131	-1
+202
+NYG logo
+N Giants
+NYG
+DEF15
+
+17	26.07	8	-7.9%	0%	98	85	106	131	-1
+203
+ARI logo
+J Conner
+ARI
+RB62
+
+13	20.06	14	0.1%	34%	50	68	85	150	-1
+204
+GB logo
+C Brooks
+GB
+RB61
+
+17	50.07	11	-2.2%	0%	64	73	73	209	-1
+205
+NE logo
+H Henry
+NE
+TE18
+
+17	13.08	11	-3.5%	47%	134	147	150	198	-2
+Tier 14
+206
+LVR logo
+T Tucker
+LVR
+WR66
+
+17	14.09	13	-5%	0%	127	131	150	241	-2
+207
+NE logo
+A Borregales
+NE
+K16
+
+17	18.02	11	0.2%	0%	141	137	146	168	-2
+208
+SEA logo
+G Holani
+SEA
+RB64
+
+17	40.01	11	5.6%	0%	66	37	83	190	-2
+209
+TEN logo
+N Singleton
+TEN
+RB63
+
+17	18.11	9	2.9%	19%	55	30	63	218	-2
+210
+PHI logo
+T Bigsby
+PHI
+RB65
+
+17	14.03	10	4.4%	22%	57	75	60	210	-2
+211
+PIT logo
+C Boswell
+PIT
+K17
+
+17	17.04	9	-2.9%	0%	141	139	144	168	-3
+212
+NYJ logo
+A Mitchell
+NYJ
+WR67
+
+17	17.12	13	-1%	28%	122	109	142	256	-3
+213
+GB logo
+G Packers
+GB
+DEF16
+
+17	22.02	11	-2.2%	0%	95	86	103	131	-3
+214
+CIN logo
+S Perine
+CIN
+RB66
+
+17	43.11	6	-4%	36%	73	86	86	168	-3
+215
+NYJ logo
+I Davis
+NYJ
+RB67
+
+17	43.08	13	-2.5%	0%	68	49	73	173	-3
+216
+TB logo
+S Tucker
+TB
+RB70
+
+17	20.04	10	-2.2%	20%	53	40	67	190	-3
+217
+WAS logo
+K Allen
+WAS
+RB69
+
+17	20.03	7	4.2%	24%	54	29	63	199	-3
+218
+SF logo
+K Black
+SF
+RB68
+
+17	15.03	8	0.7%	0%	56	72	62	202	-3
+219
+HOU logo
+D Schultz
+HOU
+TE19
+
+17	15.02	8	0.5%	57%	137	142	152	188	-4
+220
+TB logo
+C McLaughlin
+TB
+K18
+
+17	20.02	10	5%	0%	140	143	144	167	-4
+221
+CHI logo
+C Bears
+CHI
+DEF17
+
+17	22.09	10	-4.8%	0%	94	97	103	129	-4
+222
+CLE logo
+C Browns
+CLE
+DEF18
+
+17	25.03	11	8%	0%	95	87	103	129	-4
+223
+LAC logo
+K Vidal
+LAC
+RB71
+
+17	19.05	7	0.6%	0%	61	48	66	178	-4
+Tier 15
+224
+UNS logo
+M Valdes-Scantling
+UNS
+WR68
+
+17	46.04	18	-	17%	78	13	104	353	-4
+225
+TB logo
+T Buccaneers
+TB
+DEF19
+
+17	23.11	10	5.5%	0%	96	87	102	129	-4
+226
+BUF logo
+T Johnson
+BUF
+RB74
+
+17	35.02	7	-4.2%	29%	69	73	82	151	-4
+227
+JAC logo
+L Allen
+JAC
+RB73
+
+17	39.03	7	0.9%	21%	64	37	70	161	-4
+228
+NO logo
+K Miller
+NO
+RB72
+
+17	23.10	8	1.8%	33%	46	25	53	207	-4
+229
+BUF logo
+R Davis
+BUF
+RB75
+
+17	17.08	7	-4.2%	24%	46	49	50	211	-4
+230
+PHI logo
+J Elliott
+PHI
+K19
+
+17	21.01	10	-0.9%	0%	139	136	144	164	-5
+231
+WAS logo
+C Okonkwo
+WAS
+TE20
+
+17	15.08	7	-3%	22%	131	133	141	195	-5
+232
+NYJ logo
+K Sadiq
+NYJ
+TE21
+
+17	14.10	13	-1.5%	24%	125	128	139	203	-5
+233
+MIN logo
+T Hockenson
+MIN
+TE23
+
+17	14.08	6	2%	51%	132	139	147	188	-6
+234
+BUF logo
+T Bass
+BUF
+K20
+
+17	23.02	7	-1.6%	0%	138	141	142	164	-6
+235
+TEN logo
+C Ridley
+TEN
+WR69
+
+17	19.06	9	5%	48%	112	115	140	244	-6
+236
+NYJ logo
+O Cooper Jr.
+NYJ
+WR70
+
+17	17.03	13	-1%	38%	112	89	130	262	-6
+237
+LAR logo
+T Ferguson
+LAR
+TE22
+
+17	15.10	11	-2.2%	0%	116	123	128	208	-6
+238
+SF logo
+S 49ers
+SF
+DEF20
+
+17	19.12	8	1.7%	0%	95	82	102	125	-6
+239
+NYG logo
+D Singletary
+NYG
+RB76
+
+17	35.04	8	2.2%	29%	50	14	54	167	-6
+240
+NYG logo
+D Zvada
+NYG
+K21
+
+17	53.09	8	0.2%	0%	134	111	141	166	-7
+241
+CLE logo
+J Jeudy
+CLE
+WR71
+
+17	15.07	11	4.3%	32%	116	123	136	245	-7
+242
+LVR logo
+J Nailor
+LVR
+WR72
+
+17	15.01	13	-5%	0%	116	125	136	242	-7
+243
+IND logo
+I Colts
+IND
+DEF21
+
+17	22.11	13	10.2%	0%	94	85	99	128	-7
+244
+TEN logo
+T Titans
+TEN
+DEF22
+
+17	27.06	9	-0.2%	0%	94	81	97	129	-7
+245
+KC logo
+B Smith
+KC
+RB77
+
+17	25.02	5	0.6%	22%	52	39	64	141	-7
+246
+SEA logo
+E Wilson
+SEA
+RB80
+
+17	22.10	11	5.6%	0%	43	45	54	159	-7
+247
+IND logo
+S McGowan
+IND
+RB78
+
+17	53.03	13	1.7%	0%	44	33	51	169	-7
+248
+MIA logo
+J Wright
+MIA
+RB79
+
+17	21.05	6	0.8%	23%	42	47	50	173	-7
+249
+MIA logo
+O Gordon II
+MIA
+RB81
+
+17	50.02	6	0.8%	0%	40	27	46	172	-7
+250
+CAR logo
+R Fitzgerald
+CAR
+K22
+
+17	28.03	5	3.2%	0%	135	127	140	163	-8

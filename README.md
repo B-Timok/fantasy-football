@@ -42,6 +42,11 @@ Optional extras, all in `data/`:
   `python fetch_adp.py --text pasted.txt [--col N]` from any copied ADP table.
   This is what makes the "will he be there next time" numbers good. Without it
   the tool assumes everyone drafts by your rankings.
+- `draftsharks.csv`: projections, injury risk, bye weeks and a 250-deep
+  ordering, built by `python import_draftsharks.py` from a pasted
+  DraftSharks table (`data/draftsharks.txt`). Used to order everyone below
+  your overall list, to score rosters in the simulator, and for the bye and
+  injury notes in the draft screen.
 - `adp_overrides.csv`: manual ADP for players the site doesn't list or where
   you disagree; applied after `adp.csv` and never overwritten.
 - `league.json`: teams, roster slots, rounds. Already set for 12-team PPR,
