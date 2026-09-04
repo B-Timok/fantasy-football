@@ -85,6 +85,9 @@ numbered list.
 > next             # your remaining pick numbers
 ```
 
+Output is colored by position (RB green, WR blue, TE yellow, QB magenta),
+with the "@next" chance in green/yellow/red. `--no-color` for plain text.
+
 State is saved to `data/draft_state.json` after every pick. If the terminal
 dies, run the same command again and it resumes. `--new` starts over.
 

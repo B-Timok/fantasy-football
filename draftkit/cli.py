@@ -14,7 +14,8 @@ from . import sim, strategies
 from .data import (add_unranked, apply_adp, apply_adp_full, apply_draftsharks,
                    apply_positional_rankings, load_league, load_rankings,
                    write_sample_rankings)
-from . import engine
+from . import color, engine
+from .color import c
 from .engine import build_roster, p_available, recommend
 from .models import League, Player, POSITIONS, normalize_name, normalize_pos
 from .state import DraftState
@@ -95,7 +96,7 @@ class Draft:
             pk = st.add_pick(p, lg, mine=False)
             made.append(f"#{pk.pick_no} T{pk.slot} {p.name} ({p.pos}{p.pos_rank})")
         if made:
-            print("  mock picks: " + "; ".join(made))
+            print(c("  mock picks: " + "; ".join(made), "dim"))
 
     # ---- lookups ------------------------------------------------------
     def available(self) -> list[Player]:
@@ -147,8 +148,9 @@ class Draft:
         rnd, slot = lg.round_of(cur), lg.slot_of(cur)
         mine = st.is_my_pick(lg)
         nxt = st.next_my_pick(lg)
-        who = "YOU ARE ON THE CLOCK" if mine else f"team {slot} on the clock"
-        line = f"Pick {cur}  (round {rnd}, pick {(cur - 1) % lg.teams + 1})  —  {who}."
+        who = c("YOU ARE ON THE CLOCK", "bold", "bright_green") if mine \
+            else f"team {slot} on the clock"
+        line = c(f"Pick {cur}", "bold") + f"  (round {rnd}, pick {(cur - 1) % lg.teams + 1})  —  {who}."
         if mine:
             if nxt:
                 line += f"  Your next pick after this: #{nxt} ({nxt - cur} picks later)."
@@ -175,7 +177,8 @@ class Draft:
         print(self.header())
         if st.current_pick > lg.total_picks:
             return
-        print(f"Strategy: {self.strategy.name}    Roster -> {self.roster_line()}")
+        print(c("Strategy: ", "dim") + c(self.strategy.name, "bold") + c("    Roster -> ", "dim")
+              + self.roster_line())
         mine = st.is_my_pick(lg)
         now = st.current_pick
         # If it's my pick, "next" = my following pick. If not, evaluate as of my
@@ -196,8 +199,8 @@ class Draft:
                   f"'@next' = chance he lasts to your following pick #{nxt}.)")
         print()
         yours_hdr = f"{'@yours':>6} " if not mine else ""
-        print(f"{'#':>2} {'score':>6}  {'player':<26}{'pos':<5}{'rk':>4} {'tier':>4} {'adp':>5} "
-              f"{'bye':>3} {yours_hdr}{'@next':>5}  why")
+        print(c(f"{'#':>2} {'score':>6}  {'player':<26}{'pos':<5}{'rk':>4} {'tier':>4} {'adp':>5} "
+                f"{'bye':>3} {yours_hdr}{'@next':>5}  why", "dim"))
         shown, longshots = 0, []
         for r in recs:
             p = r.player
@@ -213,14 +216,20 @@ class Draft:
             avail_s = f"{r.p_avail_next * 100:.0f}%" if nxt else "-"
             yours_s = f"{p_yours * 100:.0f}% " if not mine else ""
             bye = str(p.bye) if p.bye else "-"
-            print(f"{shown:>2} {r.score:>6.1f}  {p.name[:25]:<26}{p.pos + str(p.pos_rank):<5}"
-                  f"{p.rank:>4} {tier:>4} {adp:>5} {bye:>3} {yours_s:>6}{avail_s:>5}  "
-                  f"{'; '.join(r.reasons)}")
+            name = color.pad(color.pos(p.name[:25], p.pos), 26, len(p.name[:25]))
+            posl = color.pad(color.pos(p.pos + str(p.pos_rank), p.pos), 5, len(p.pos + str(p.pos_rank)))
+            if shown == 1:
+                name = c(p.name[:25], "bold", color.POS_COLOR[p.pos]) + " " * (26 - len(p.name[:25]))
+            avail_c = color.pct(r.p_avail_next, f"{avail_s:>5}") if nxt else f"{avail_s:>5}"
+            yours_c = color.pct(p_yours, f"{yours_s:>6}") if not mine else ""
+            why = c("; ", "dim").join(color.reason(x) for x in r.reasons)
+            print(f"{shown:>2} {r.score:>6.1f}  {name}{posl}"
+                  f"{p.rank:>4} {tier:>4} {adp:>5} {bye:>3} {yours_c}{avail_c}  {why}")
         if longshots:
-            print(f"   unlikely to reach you: {', '.join(longshots[:6])}")
+            print(c(f"   unlikely to reach you: {', '.join(longshots[:6])}", "dim"))
         print()
-        print(f"{'pos':<4}{'best now':<26}{'likely best at your next pick':<32}"
-              f"{'ppg now':>8} {'ppg next':>9} {'~gone':>5}")
+        print(c(f"{'pos':<4}{'best now':<29}{'likely best at your next pick':<32}"
+                f"{'ppg now':>8} {'ppg next':>9} {'~gone':>5}", "dim"))
         for pos in POSITIONS:
             o = outlooks[pos]
             if o.best_now is None:
@@ -228,8 +237,11 @@ class Draft:
             bn = f"{o.best_now.name[:20]} (rk {o.best_now.rank})"
             ln = (f"{o.likely_next.name[:20]} (rk {o.likely_next.rank})"
                   if o.likely_next and nxt else "-")
-            print(f"{pos:<4}{bn:<26}{ln:<32}{o.ppg_now:>8.1f} {o.ppg_next:>9.1f} "
-                  f"{o.n_expected_gone:>5.1f}")
+            drop = o.ppg_now - o.ppg_next
+            nxt_s = f"{o.ppg_next:>9.1f}"
+            nxt_c = c(nxt_s, "red") if drop >= 1.5 else (c(nxt_s, "yellow") if drop >= 0.7 else nxt_s)
+            print(f"{color.pad(color.pos(pos, pos), 4, len(pos))}{bn:<29}{ln:<32}{o.ppg_now:>8.1f} "
+                  f"{nxt_c} {o.n_expected_gone:>5.1f}")
 
     def board(self, pos: Optional[str], n: int) -> None:
         avail = self.available()
@@ -239,7 +251,8 @@ class Draft:
         for p in avail[:n]:
             tier = str(p.tier) if p.tier is not None else "-"
             adp = f"{p.adp:.0f}" if p.adp is not None else "-"
-            print(f"{p.rank:>4} {p.pos + str(p.pos_rank):<5}{p.name[:25]:<26}{p.team:<5}"
+            print(f"{p.rank:>4} {color.pad(color.pos(p.pos + str(p.pos_rank), p.pos), 5, len(p.pos + str(p.pos_rank)))}"
+                  f"{color.pad(color.pos(p.name[:25], p.pos), 26, len(p.name[:25]))}{p.team:<5}"
                   f"{tier:>4} {adp:>5}")
 
     def roster(self) -> None:
@@ -248,11 +261,11 @@ class Draft:
             if slot == "BN":
                 continue
             for p in rv.starters.get(slot, []):
-                print(f"  {slot:<5} {p.label()}  rk {p.rank}")
+                print(f"  {slot:<5} {color.pos(p.label(), p.pos)}  rk {p.rank}")
             for _ in range(self.league.roster[slot] - len(rv.starters.get(slot, []))):
                 print(f"  {slot:<5} --")
         for p in rv.bench:
-            print(f"  BN    {p.label()}  rk {p.rank}")
+            print(f"  BN    {color.pos(p.label(), p.pos)}  rk {p.rank}")
         print(f"  Picks: {[p.pick_no for p in self.state.picks if p.mine]}")
 
     # ---- actions ------------------------------------------------------
@@ -313,8 +326,8 @@ class Draft:
         else:
             player = hits[0]
         pk = self.state.add_pick(player, self.league, mine)
-        tag = "YOU" if pk.mine else f"team {pk.slot}"
-        print(f"  #{pk.pick_no}: {tag} -> {player.label()}  (rk {player.rank})")
+        tag = c("YOU", "bold", "bright_green") if pk.mine else f"team {pk.slot}"
+        print(f"  #{pk.pick_no}: {tag} -> {color.pos(player.label(), player.pos)}  (rk {player.rank})")
         return True
 
     def sync(self) -> None:
@@ -433,8 +446,9 @@ class Draft:
             elif cmd in ("f", "find", "search"):
                 taken = self.state.taken_keys()
                 for p in self.find(rest, only_available=False)[:12]:
-                    flag = "TAKEN" if p.key in taken else ""
-                    print(f"  rk {p.rank:>3}  {p.label():<34} adp {p.adp or '-'}  {flag}")
+                    flag = c("TAKEN", "red") if p.key in taken else ""
+                    print(f"  rk {p.rank:>3}  {color.pad(color.pos(p.label(), p.pos), 34, len(p.label()))} "
+                          f"adp {p.adp or '-'}  {flag}")
             elif cmd in ("strategy", "strat"):
                 if rest:
                     try:
@@ -484,7 +498,10 @@ def main(argv=None) -> int:
     ap.add_argument("--mock", action="store_true",
                     help="practice: the other teams draft automatically by ADP")
     ap.add_argument("--seed", type=int, help="random seed for --mock (repeatable drafts)")
+    ap.add_argument("--no-color", action="store_true", help="plain text output")
     args = ap.parse_args(argv)
+    if args.no_color:
+        color.ENABLED = False
     if args.state is None:
         args.state = os.path.join(DATA, "mock_state.json" if args.mock else "draft_state.json")
 
