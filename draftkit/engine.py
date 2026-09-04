@@ -21,6 +21,9 @@ URGENCY_W = 0.8          # weight of drop-off-if-you-wait
 LAST_IN_TIER_BONUS = 4.0  # last player in a tier at his position
 BENCH_DISCOUNT = {"QB": 0.45, "RB": 0.8, "WR": 0.8, "TE": 0.45, "K": 0.05, "DEF": 0.05}
 FLEX_DISCOUNT = 0.92
+# once you already hold N at a position, a further one is worth this much (1-QB league)
+COUNT_DISCOUNT = {"QB": {1: 0.35, 2: 0.02}, "TE": {1: 0.35, 2: 0.02},
+                  "K": {1: 0.0}, "DEF": {1: 0.0}, "RB": {6: 0.3}, "WR": {6: 0.3}}
 
 
 def base_value(rank: int, horizon: int = 220) -> float:
@@ -92,7 +95,12 @@ def need_multiplier(pos: str, roster: RosterView, league: League, rnd: int) -> t
         return 1.0, f"{pos} starter open"
     if pos in league.flex_positions and opened.get("FLEX", 0) > 0:
         return FLEX_DISCOUNT, "FLEX open"
-    return BENCH_DISCOUNT[pos], "bench"
+    have = roster.counts.get(pos, 0)
+    disc = BENCH_DISCOUNT[pos]
+    for n, mult in sorted(COUNT_DISCOUNT.get(pos, {}).items()):
+        if have >= n:
+            disc = min(disc, mult)
+    return disc, "bench"
 
 
 def must_fill_multiplier(pos: str, roster: RosterView, league: League,
@@ -202,6 +210,8 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
             need_reason = "bench"
         if need_reason != "bench":
             reasons.append(need_reason)
+        elif roster.counts.get(p.pos, 0) >= 1 and p.pos in ("QB", "TE"):
+            reasons.append(f"backup {p.pos} (have {roster.counts[p.pos]})")
         else:
             reasons.append(f"{p.pos} depth")
         if next_pick:
