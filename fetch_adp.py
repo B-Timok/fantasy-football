@@ -90,17 +90,24 @@ def rows_from_html(html):
     return best
 
 
-def rows_from_text(text):
-    text = text.replace(" ", " ")
-    # name [team] pos[rank] [team] ... adp    (team may sit before or after the position)
+NUM = r"\d{1,3}(?:\.\d+)?"
+
+
+def rows_from_text(text, col=1):
+    """`col` picks which number after the position to use when a row carries
+    several (e.g. consensus, CBS, ESPN, Sleeper); 1-based."""
+    text = text.replace("\u00a0", " ")
+    # name [team] pos[rank] [team] ... adp [adp adp ...]   (team may sit before or after pos)
     pat = re.compile(NAME_RE + SEP + r"(" + TEAM_RE + r")?" + SEP + r"\b" + POS_RE + r"\d*\b"
-                     + SEP + r"(" + TEAM_RE + r")?\b[^\d]{0,40}?(\d{1,3}(?:\.\d+)?)")
+                     + SEP + r"(" + TEAM_RE + r")?\b[^\d]{0,40}?"
+                     + r"(" + NUM + r"(?:[ \t]+" + NUM + r"){0,7})")
     out, seen = [], set()
     for m in pat.finditer(text):
         name = m.group(1).strip()
         pos = normalize_pos(m.group(3))
         team = m.group(2) or m.group(4) or ""
-        adp = float(m.group(5))
+        nums = m.group(5).split()
+        adp = float(nums[min(col, len(nums)) - 1])
         # a team code glued to the end of the name ("J. Chase CIN")
         nt = name.split()
         if len(nt) > 1 and re.fullmatch(TEAM_RE, nt[-1]) and nt[-1] not in ("II", "III", "IV", "JR", "SR"):
