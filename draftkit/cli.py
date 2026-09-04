@@ -192,9 +192,12 @@ class Draft:
             print("You have no picks left.")
             return
         avail = self.available()
-        # at the turn (next pick 1-2 away) the pick after that is what matters
-        turn = nxt is not None and nxt - target <= 2
-        nxt2 = st.next_my_pick(lg, after=nxt) if turn else None
+        # near the turn (next pick close, then a long wait) the pick after next matters most
+        nxt2 = st.next_my_pick(lg, after=nxt) if nxt else None
+        turn = (nxt is not None and nxt2 is not None and nxt - target <= 5
+                and (nxt2 - nxt) >= 3 * (nxt - target))
+        if not turn:
+            nxt2 = None
         recs, outlooks = recommend(avail, self.my_players(), lg, self.strategy, target, nxt,
                                    n * 3 if not mine else n)
         if turn and nxt2:
