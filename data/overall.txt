@@ -67,7 +67,7 @@ DJ Moore
 Mike Evans
 Tier G
 Tyler Warren
-Josh Jacobs
+# Josh Jacobs  (dropped for now: suspension pending; uncomment to restore at this spot)
 TreVeyon Henderson
 Rhamondre Stevenson
 Drake Maye
