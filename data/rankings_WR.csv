@@ -1,0 +1,52 @@
+rank,name,pos,team,tier,tier_label,ppg
+1,Ja'Marr Chase,WR,CIN,1,S,19.6
+2,Puka Nacua,WR,LAR,1,S,23.4
+3,Jaxon Smith-Njigba,WR,SEA,1,S,21.2
+4,Amon-Ra St. Brown,WR,DET,2,A,19.1
+5,CeeDee Lamb,WR,DAL,2,A,14.3
+6,Justin Jefferson,WR,MIN,2,A,11.8
+7,A.J. Brown,WR,NE,3,B,14.7
+8,Drake London,WR,ATL,3,B,16.8
+9,Nico Collins,WR,HOU,3,B,15.1
+10,Malik Nabers,WR,NYG,3,B,14.3
+11,George Pickens,WR,DAL,3,B,17.2
+12,Rashee Rice,WR,KC,3,B,18.8
+13,Chris Olave,WR,NO,3,B,16.8
+14,DeVonta Smith,WR,PHI,4,C,11.9
+15,Tee Higgins,WR,CIN,4,C,14.1
+16,Zay Flowers,WR,BAL,4,C,14.3
+17,Jaylen Waddle,WR,DEN,4,C,12.1
+18,Tetairoa McMillan,WR,CAR,4,C,12.4
+19,Emeka Egbuka,WR,TB,4,C,11.5
+20,Ladd McConkey,WR,LAC,4,C,11.3
+21,Garrett Wilson,WR,NYJ,4,C,14.2
+22,Davante Adams,WR,LAR,5,D,15.9
+23,Christian Watson,WR,GB,5,D,13.2
+24,Jameson Williams,WR,DET,5,D,12.9
+25,Luther Burden,WR,CHI,5,D,8.5
+26,Terry McLaurin,WR,WAS,5,D,11.4
+27,Rome Odunze,WR,CHI,5,D,12.2
+28,DJ Moore,WR,BUF,5,D,10
+29,Mike Evans,WR,SF,5,D,10.6
+30,Tate,WR,TEN,6,E,
+31,Brian Thomas Jr.,WR,JAX,6,E,9.9
+32,Parker Washington,WR,JAX,6,E,10.8
+33,Marvin Harrison Jr.,WR,ARI,6,E,10.7
+34,Chris Godwin,WR,TB,6,E,9.2
+35,DK Metcalf,WR,PIT,6,E,12.5
+36,Jordan Addison,WR,MIN,7,F,9.7
+37,Quentin Johnston,WR,LAC,7,F,12.2
+38,Makai Lemon,WR,PHI,7,F,
+39,Michael Pittman,WR,PIT,7,F,11.9
+40,Courtland Sutton,WR,DEN,7,F,12.9
+41,Stribling,WR,SF,7,F,
+42,Stefon Diggs,WR,WAS,8,G,12.4
+43,Alec Pierce,WR,IND,8,G,12.2
+44,Wan'Dale Robinson,WR,TEN,8,G,13.6
+45,Michael Wilson,WR,ARI,8,G,13
+46,Josh Downs,WR,IND,8,G,8.5
+47,Matthew Golden,WR,GB,8,G,5
+48,KC Concepcion,WR,CLE,8,G,
+49,Jayden Reed,WR,GB,8,G,6.9
+50,Tyson,WR,NO,8,G,
+51,Xavier Worthy,WR,KC,8,G,7.8
