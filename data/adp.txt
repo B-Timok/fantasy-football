@@ -1,0 +1,2083 @@
+DS
+Rank
+Player	
+ADP
+ADP
+ADP
+ADP
+1	
+DET logo
+J. Gibbs
+DET
+RB1
+1	1	1	1
+2	
+LAR logo
+P. Nacua
+LAR
+WR1
+4	4	4	4
+3	
+CIN logo
+J. Chase
+CIN
+WR2
+3	3	3	3
+4	
+ATL logo
+B. Robinson
+ATL
+RB2
+2	2	2	2
+5	
+SF logo
+C. McCaffrey
+SF
+RB3
+7	5	7	5
+6	
+SEA logo
+J. Smith-Njigba
+SEA
+WR3
+6	6	6	6
+7	
+DET logo
+A. St. Brown
+DET
+WR4
+8	8	8	8
+8	
+DAL logo
+C. Lamb
+DAL
+WR5
+12	10	10	10
+9	
+MIN logo
+J. Jefferson
+MIN
+WR6
+15	11	12	11
+10	
+IND logo
+J. Taylor
+IND
+RB4
+5	7	5	7
+11	
+BUF logo
+J. Cook
+BUF
+RB5
+9	9	9	9
+12	
+KC logo
+K. Walker III
+KC
+RB6
+16	17	23	20
+13	
+ATL logo
+D. London
+ATL
+WR7
+20	20	18	18
+14	
+PHI logo
+S. Barkley
+PHI
+RB7
+14	14	13	12
+15	
+NE logo
+A. Brown
+NE
+WR8
+19	18	19	17
+16	
+LVR logo
+A. Jeanty
+LVR
+RB8
+22	16	20	14
+17	
+HOU logo
+N. Collins
+HOU
+WR9
+24	23	24	25
+18	
+MIA logo
+D. Achane
+MIA
+RB9
+11	12	11	13
+19	
+CIN logo
+C. Brown
+CIN
+RB10
+10	13	15	16
+20	
+DAL logo
+G. Pickens
+DAL
+WR10
+21	22	26	22
+21	
+KC logo
+R. Rice
+KC
+WR11
+23	31	28	29
+22	
+LAC logo
+O. Hampton
+LAC
+RB11
+17	15	16	15
+23	
+LVR logo
+B. Bowers
+LVR
+TE1
+26	21	22	23
+24	
+BUF logo
+J. Allen
+BUF
+QB1
+18	24	17	21
+25	
+BAL logo
+D. Henry
+BAL
+RB12
+13	19	14	19
+26	
+ARI logo
+T. McBride
+ARI
+TE2
+27	25	21	24
+27	
+NO logo
+C. Olave
+NO
+WR12
+28	26	27	30
+28	
+NYG logo
+M. Nabers
+NYG
+WR13
+29	27	31	26
+29	
+BAL logo
+Z. Flowers
+BAL
+WR14
+34	34	39	40
+30	
+PHI logo
+D. Smith
+PHI
+WR15
+31	32	34	32
+31	
+CIN logo
+T. Higgins
+CIN
+WR16
+37	39	46	35
+32	
+NYJ logo
+B. Hall
+NYJ
+RB13
+38	33	33	34
+33	
+NYJ logo
+G. Wilson
+NYJ
+WR17
+45	38	35	45
+34	
+CHI logo
+C. Loveland
+CHI
+TE3
+41	42	38	39
+36	
+ARI logo
+J. Love
+ARI
+RB14
+32	28	25	27
+37	
+DAL logo
+J. Williams
+DAL
+RB15
+30	29	29	33
+38	
+DEN logo
+J. Waddle
+DEN
+WR18
+46	44	49	44
+40	
+IND logo
+T. Warren
+IND
+TE4
+55	52	48	48
+42	
+NO logo
+T. Etienne
+NO
+RB16
+33	35	36	43
+43	
+GB logo
+C. Watson
+GB
+WR19
+61	61	79	68
+44	
+LAR logo
+D. Adams
+LAR
+WR20
+53	51	43	49
+45	
+BAL logo
+L. Jackson
+BAL
+QB2
+40	43	30	31
+46	
+CHI logo
+L. Burden III
+CHI
+WR21
+58	50	66	54
+47	
+CAR logo
+T. McMillan
+CAR
+WR22
+42	36	37	37
+48	
+LAR logo
+K. Williams
+LAR
+RB17
+25	30	32	28
+49	
+TB logo
+E. Egbuka
+TB
+WR23
+44	37	40	38
+50	
+LAC logo
+L. McConkey
+LAC
+WR24
+39	40	42	36
+55	
+CHI logo
+D. Swift
+CHI
+RB18
+35	45	47	50
+56	
+WAS logo
+T. McLaurin
+WAS
+WR25
+57	53	55	55
+57	
+SF logo
+M. Evans
+SF
+WR26
+66	63	73	61
+58	
+CIN logo
+J. Burrow
+CIN
+QB3
+49	57	51	51
+59	
+PHI logo
+J. Hurts
+PHI
+QB4
+63	67	52	58
+60	
+NE logo
+D. Maye
+NE
+QB5
+51	55	44	47
+61	
+WAS logo
+J. Daniels
+WAS
+QB6
+62	64	50	65
+62	
+NYG logo
+C. Skattebo
+NYG
+RB19
+36	41	41	41
+63	
+TB logo
+B. Irving
+TB
+RB20
+43	49	53	42
+64	
+DET logo
+J. Williams
+DET
+WR27
+56	54	58	59
+65	
+CHI logo
+R. Odunze
+CHI
+WR28
+60	60	59	64
+66	
+HOU logo
+D. Montgomery
+HOU
+RB21
+48	48	57	46
+68	
+GB logo
+T. Kraft
+GB
+TE5
+71	69	83	62
+69	
+NE logo
+R. Stevenson
+NE
+RB22
+67	65	69	80
+70	
+CLE logo
+Q. Judkins
+CLE
+RB23
+47	46	45	52
+71	
+CLE logo
+H. Fannin Jr.
+CLE
+TE6
+65	70	62	69
+72	
+DET logo
+S. LaPorta
+DET
+TE7
+64	77	65	57
+73	
+JAC logo
+T. Lawrence
+JAC
+QB7
+79	88	90	97
+75	
+BUF logo
+D. Moore
+BUF
+WR29
+50	47	54	53
+76	
+LAC logo
+J. Herbert
+LAC
+QB8
+82	84	76	81
+77	
+CHI logo
+C. Williams
+CHI
+QB9
+74	76	80	71
+78	
+JAC logo
+P. Washington
+JAC
+WR30
+69	62	82	72
+79	
+MIN logo
+K. Murray
+MIN
+QB10
+137	134	132	150
+80	
+DAL logo
+D. Prescott
+DAL
+QB11
+59	81	63	76
+81	
+SF logo
+B. Purdy
+SF
+QB12
+96	117	100	121
+82	
+PIT logo
+J. Warren
+PIT
+RB24
+75	66	77	70
+83	
+NYG logo
+J. Dart
+NYG
+QB13
+109	98	72	93
+84	
+JAC logo
+B. Tuten
+JAC
+RB25
+54	56	56	60
+85	
+NE logo
+T. Henderson
+NE
+RB26
+70	58	67	56
+87	
+SEA logo
+J. Price
+SEA
+RB27
+52	59	60	63
+88	
+DEN logo
+B. Nix
+DEN
+QB14
+119	111	94	116
+89	
+PIT logo
+D. Metcalf
+PIT
+WR31
+88	75	75	74
+90	
+PIT logo
+R. Dowdle
+PIT
+RB28
+76	80	87	85
+91	
+TEN logo
+C. Tate
+TEN
+WR32
+87	68	68	66
+92	
+KC logo
+P. Mahomes
+KC
+QB15
+101	112	99	110
+93	
+CAR logo
+J. Brooks
+CAR
+RB29
+81	79	96	99
+94	
+ATL logo
+K. Pitts
+ATL
+TE8
+73	72	61	67
+95	
+ARI logo
+M. Harrison Jr.
+ARI
+WR33
+68	71	70	75
+96	
+SF logo
+G. Kittle
+SF
+TE9
+78	90	64	82
+99	
+GB logo
+J. Reed
+GB
+WR34
+124	109	136	108
+100	
+TEN logo
+T. Pollard
+TEN
+RB30
+72	74	78	83
+101	
+GB logo
+M. Lloyd
+GB
+RB31
+92	114	110	158
+102	
+DEN logo
+C. Sutton
+DEN
+WR35
+77	73	71	79
+103	
+PIT logo
+M. Pittman Jr.
+PIT
+WR36
+112	92	81	104
+104	
+DET logo
+J. Goff
+DET
+QB16
+107	122	131	131
+105	
+DEN logo
+J. Dobbins
+DEN
+RB32
+85	89	102	91
+106	
+JAC logo
+B. Thomas Jr.
+JAC
+WR37
+83	78	106	73
+107	
+LAR logo
+M. Stafford
+LAR
+QB17
+90	103	85	94
+108	
+MIN logo
+J. Addison
+MIN
+WR38
+108	104	112	102
+109	
+DEN logo
+R. Harvey
+DEN
+RB33
+93	82	121	78
+110	
+GB logo
+J. Love
+GB
+QB18
+144	145	153	152
+112	
+NO logo
+T. Shough
+NO
+QB19
+153	149	147	187
+113	
+WAS logo
+J. Croskey-Merritt
+WAS
+RB34
+102	108	129	114
+114	
+TB logo
+C. Godwin
+TB
+WR39
+86	86	113	92
+115	
+MIN logo
+J. Mason
+MIN
+RB35
+94	99	135	109
+118	
+LAC logo
+Q. Johnston
+LAC
+WR40
+91	97	123	113
+119	
+TB logo
+B. Mayfield
+TB
+QB20
+135	135	142	143
+121	
+JAC logo
+J. Meyers
+JAC
+WR41
+129	118	115	123
+122	
+CAR logo
+C. Hubbard
+CAR
+RB36
+106	87	97	77
+124	
+IND logo
+J. Downs
+IND
+WR42
+121	106	130	112
+125	
+TEN logo
+T. Spears
+TEN
+RB37
+150	142	143	163
+126	
+WAS logo
+S. Diggs
+WAS
+WR43
+110	102	91	107
+128	
+LAR logo
+B. Corum
+LAR
+RB38
+100	93	120	100
+129	
+TB logo
+K. Gainwell
+TB
+RB39
+97	95	89	111
+131	
+CHI logo
+K. Monangai
+CHI
+RB40
+111	100	117	101
+132	
+KC logo
+T. Kelce
+KC
+TE10
+98	101	86	88
+134	
+WAS logo
+R. White
+WAS
+RB41
+126	110	119	132
+135	
+HOU logo
+W. Marks
+HOU
+RB42
+136	128	146	148
+136	
+KC logo
+X. Worthy
+KC
+WR44
+138	125	125	137
+139	
+MIA logo
+M. Willis
+MIA
+QB21
+164	162	177	208
+140	
+DAL logo
+B. Aubrey
+DAL
+K1
+104	96	74	90
+141	
+MIN logo
+A. Jones
+MIN
+RB43
+120	119	108	126
+142	
+IND logo
+D. Jones
+IND
+QB22
+162	182	158	202
+144	
+NE logo
+R. Doubs
+NE
+WR45
+133	124	145	130
+149	
+CLE logo
+K. Concepcion
+CLE
+WR46
+115	121	144	119
+153	
+SEA logo
+Z. Charbonnet
+SEA
+RB44
+142	144	150	149
+155	
+ARI logo
+M. Wilson
+ARI
+WR47
+99	83	92	84
+161	
+IND logo
+A. Pierce
+IND
+WR48
+84	91	98	96
+163	
+TEN logo
+W. Robinson
+TEN
+WR49
+113	94	105	118
+166	
+PHI logo
+M. Lemon
+PHI
+WR50
+128	105	126	89
+168	
+GB logo
+M. Golden
+GB
+WR51
+130	120	104	125
+169	
+CLE logo
+D. Sampson
+CLE
+RB45
+175	158	192	189
+170	
+LAC logo
+K. Mitchell
+LAC
+RB46
+170	150	193	184
+171	
+TEN logo
+C. Ward
+TEN
+QB23
+N/A	198	194	246
+172	
+LAC logo
+C. Dicker
+LAC
+K2
+145	130	103	117
+175	
+JAC logo
+C. Rodriguez
+JAC
+RB47
+139	129	166	138
+178	
+HOU logo
+H. Texans
+HOU
+DEF1
+103	N/A	84	95
+181	
+BUF logo
+K. Shakir
+BUF
+WR52
+161	139	137	144
+183	
+BUF logo
+D. Kincaid
+BUF
+TE11
+117	116	124	86
+185	
+HOU logo
+C. Stroud
+HOU
+QB24
+168	180	171	205
+187	
+LVR logo
+M. Washington Jr.
+LVR
+RB48
+122	143	164	159
+190	
+SF logo
+D. Samuel
+SF
+WR53
+127	137	140	129
+194	
+NO logo
+J. Tyson
+NO
+WR54
+156	126	182	103
+195	
+DEN logo
+D. Broncos
+DEN
+DEF2
+95	N/A	88	115
+196	
+PHI logo
+D. Goedert
+PHI
+TE12
+80	123	95	120
+198	
+ARI logo
+T. Allgeier
+ARI
+RB49
+148	131	163	142
+202	
+SF logo
+D. Stribling
+SF
+WR55
+114	115	134	136
+203	
+SEA logo
+S. Seahawks
+SEA
+DEF3
+116	140	107	105
+205	
+HOU logo
+K. Fairbairn
+HOU
+K3
+131	132	118	128
+206	
+DAL logo
+J. Ferguson
+DAL
+TE13
+123	113	101	98
+208	
+ATL logo
+B. Robinson Jr.
+ATL
+RB50
+185	157	180	171
+209	
+CAR logo
+B. Young
+CAR
+QB25
+N/A	199	190	233
+211	
+ARI logo
+J. Brissett
+ARI
+QB26
+N/A	224	195	N/A
+212	
+SEA logo
+S. Darnold
+SEA
+QB27
+149	181	162	162
+213	
+BAL logo
+M. Andrews
+BAL
+TE14
+118	127	122	127
+214	
+NO logo
+A. Kamara
+NO
+RB51
+178	153	161	165
+215	
+PIT logo
+P. Steelers
+PIT
+DEF4
+146	202	116	151
+217	
+DEN logo
+J. Coleman
+DEN
+RB52
+151	148	174	167
+218	
+NYG logo
+T. Tracy Jr.
+NYG
+RB53
+152	151	196	173
+219	
+SEA logo
+R. Shaheed
+SEA
+WR56
+147	138	160	147
+220	
+BAL logo
+B. Ravens
+BAL
+DEF5
+159	207	127	134
+221	
+JAC logo
+C. Little
+JAC
+K4
+155	146	138	133
+222	
+NYG logo
+I. Likely
+NYG
+TE15
+89	107	114	106
+223	
+CHI logo
+C. Santos
+CHI
+K5
+199	223	197	240
+225	
+PIT logo
+A. Rodgers
+PIT
+QB28
+N/A	218	199	243
+226	
+CIN logo
+E. McPherson
+CIN
+K6
+190	194	198	180
+228	
+MIN logo
+M. Vikings
+MIN
+DEF6
+134	183	200	153
+229	
+JAC logo
+B. Strange
+JAC
+TE16
+143	154	178	154
+230	
+PHI logo
+P. Eagles
+PHI
+DEF7
+132	219	133	122
+231	
+LAR logo
+L. Rams
+LAR
+DEF8
+105	133	93	87
+232	
+NYJ logo
+G. Smith
+NYJ
+QB29
+N/A	N/A	201	N/A
+233	
+SF logo
+E. Pineiro
+SF
+K7
+187	189	139	192
+234	
+BAL logo
+J. Hill
+BAL
+RB54
+N/A	N/A	187	N/A
+235	
+NO logo
+J. Johnson
+NO
+TE17
+140	147	156	179
+236	
+LVR logo
+F. Mendoza
+LVR
+QB30
+N/A	208	184	186
+238	
+CAR logo
+J. Coker
+CAR
+WR57
+141	136	152	146
+240	
+SEA logo
+J. Myers
+SEA
+K8
+125	141	109	124
+241	
+NE logo
+N. Patriots
+NE
+DEF9
+154	216	151	135
+243	
+KC logo
+E. Johnson
+KC
+RB55
+183	184	202	207
+244	
+DET logo
+J. Bates
+DET
+K9
+171	155	155	139
+245	
+LAR logo
+H. Mevis
+LAR
+K10
+184	161	128	155
+246	
+TB logo
+J. McMillan
+TB
+WR58
+N/A	185	165	209
+247	
+CLE logo
+D. Boston
+CLE
+WR59
+169	163	203	170
+249	
+LAC logo
+L. Chargers
+LAC
+DEF10
+165	172	173	166
+250	
+IND logo
+K. Allen
+IND
+WR60
+181	168	170	199
+253	
+GB logo
+T. Smack
+GB
+K11
+N/A	211	183	195
+255	
+NYG logo
+N. Harris
+NYG
+RB56
+N/A	229	204	222
+256	
+MIN logo
+W. Reichard
+MIN
+K12
+200	197	179	169
+258	
+JAC logo
+J. Jaguars
+JAC
+DEF11
+173	167	181	156
+259	
+DET logo
+I. Pacheco
+DET
+RB57
+158	156	159	190
+260	
+NYJ logo
+B. Allen
+NYJ
+RB58
+176	187	205	204
+261	
+DET logo
+D. Lions
+DET
+DEF12
+179	193	154	157
+263	
+GB logo
+C. Brooks
+GB
+RB59
+N/A	N/A	206	N/A
+265	
+NYG logo
+N. Giants
+NYG
+DEF13
+N/A	N/A	209	277
+266	
+DEN logo
+W. Lutz
+DEN
+K13
+214	247	207	N/A
+267	
+ARI logo
+J. Conner
+ARI
+RB60
+214	234	208	249
+271	
+BUF logo
+B. Bills
+BUF
+DEF14
+193	256	210	217
+272	
+KC logo
+K. Chiefs
+KC
+DEF15
+204	257	175	227
+274	
+KC logo
+H. Butker
+KC
+K14
+186	173	141	160
+275	
+LVR logo
+T. Tucker
+LVR
+WR61
+163	165	212	201
+276	
+TEN logo
+N. Singleton
+TEN
+RB61
+N/A	215	211	212
+277	
+NE logo
+H. Henry
+NE
+TE18
+160	152	149	140
+281	
+NYJ logo
+A. Mitchell
+NYJ
+WR62
+N/A	204	213	253
+282	
+SEA logo
+G. Holani
+SEA
+RB62
+N/A	N/A	214	N/A
+283	
+PHI logo
+T. Bigsby
+PHI
+RB63
+167	159	215	178
+284	
+BAL logo
+T. Loop
+BAL
+K15
+208	174	172	177
+285	
+CIN logo
+S. Perine
+CIN
+RB64
+N/A	N/A	216	N/A
+286	
+NYJ logo
+I. Davis
+NYJ
+RB65
+N/A	N/A	217	N/A
+287	
+TB logo
+S. Tucker
+TB
+RB66
+N/A	232	219	N/A
+288	
+SF logo
+K. Black
+SF
+RB67
+172	171	218	194
+290	
+WAS logo
+K. Allen
+WAS
+RB68
+N/A	231	220	281
+291	
+GB logo
+G. Packers
+GB
+DEF16
+207	254	221	203
+293	
+LAC logo
+K. Vidal
+LAC
+RB69
+N/A	221	222	272
+294	
+CHI logo
+C. Bears
+CHI
+DEF17
+211	261	223	223
+296	
+HOU logo
+D. Schultz
+HOU
+TE19
+157	170	189	183
+298	
+BUF logo
+R. Davis
+BUF
+RB70
+N/A	200	224	230
+299	
+CLE logo
+C. Browns
+CLE
+DEF18
+203	291	157	N/A
+300	
+BUF logo
+T. Johnson
+BUF
+RB71
+N/A	N/A	225	N/A
+301	
+NO logo
+K. Miller
+NO
+RB72
+N/A	274	226	231
+302	
+JAC logo
+L. Allen
+JAC
+RB73
+N/A	N/A	227	N/A
+303	
+TB logo
+T. Buccaneers
+TB
+DEF19
+N/A	275	228	256
+304	
+NE logo
+A. Borregales
+NE
+K16
+215	206	229	174
+309	
+PIT logo
+C. Boswell
+PIT
+K17
+N/A	196	168	145
+311	
+TB logo
+C. McLaughlin
+TB
+K18
+209	230	230	225
+312	
+NYJ logo
+K. Sadiq
+NYJ
+TE20
+188	166	169	172
+313	
+WAS logo
+C. Okonkwo
+WAS
+TE21
+192	176	231	191
+315	
+SF logo
+S. 49ers
+SF
+DEF20
+N/A	228	232	216
+316	
+TEN logo
+C. Ridley
+TEN
+WR63
+196	222	186	N/A
+317	
+NYJ logo
+O. Cooper Jr.
+NYJ
+WR64
+N/A	195	233	193
+318	
+LAR logo
+T. Ferguson
+LAR
+TE22
+N/A	178	185	206
+319	
+CLE logo
+J. Jeudy
+CLE
+WR65
+177	175	188	185
+320	
+NYG logo
+D. Singletary
+NYG
+RB74
+N/A	N/A	234	N/A
+321	
+MIN logo
+T. Hockenson
+MIN
+TE23
+195	164	148	164
+322	
+IND logo
+S. McGowan
+IND
+RB75
+N/A	N/A	235	N/A
+323	
+IND logo
+I. Colts
+IND
+DEF21
+N/A	263	236	219
+327	
+LVR logo
+J. Nailor
+LVR
+WR66
+213	169	237	182
+328	
+KC logo
+B. Smith
+KC
+RB76
+N/A	290	238	234
+330	
+MIA logo
+J. Wright
+MIA
+RB77
+N/A	245	239	N/A
+334	
+PHI logo
+J. Elliott
+PHI
+K19
+N/A	241	241	220
+338	
+GB logo
+K. Johnson
+GB
+RB78
+N/A	276	240	215
+339	
+TEN logo
+T. Titans
+TEN
+DEF22
+N/A	N/A	243	N/A
+340	
+MIN logo
+J. Jennings
+MIN
+WR67
+212	191	242	214
+341	
+SEA logo
+E. Wilson
+SEA
+RB79
+N/A	262	244	N/A
+342	
+MIN logo
+D. Claiborne
+MIN
+RB80
+N/A	227	245	N/A
+344	
+MIA logo
+O. Gordon II
+MIA
+RB81
+N/A	N/A	246	N/A
+345	
+BAL logo
+A. Randall
+BAL
+RB82
+N/A	N/A	247	N/A
+346	
+NO logo
+N. Saints
+NO
+DEF23
+189	N/A	249	N/A
+347	
+BUF logo
+T. Bass
+BUF
+K20
+N/A	266	248	N/A
+350	
+SF logo
+J. James
+SF
+RB83
+210	N/A	250	N/A
+351	
+DEN logo
+P. Bryant
+DEN
+WR68
+N/A	235	252	235
+352	
+DET logo
+J. Saylors
+DET
+RB84
+N/A	N/A	251	N/A
+354	
+CIN logo
+C. Bengals
+CIN
+DEF24
+N/A	N/A	253	292
+356	
+NYJ logo
+N. Jets
+NYJ
+DEF25
+N/A	299	254	N/A
+358	
+UNS logo
+J. Hunter
+UNS
+RB85
+N/A	N/A	255	287
+359	
+HOU logo
+J. Noel
+HOU
+WR69
+N/A	233	256	213
+361	
+NYG logo
+D. Zvada
+NYG
+K21
+N/A	N/A	257	N/A
+364	
+WAS logo
+J. McNichols
+WAS
+RB86
+N/A	N/A	258	N/A
+365	
+UNS logo
+A. Gibson
+UNS
+RB87
+N/A	N/A	259	N/A
+366	
+HOU logo
+K. Boutte
+HOU
+WR70
+191	188	260	198
+368	
+UNS logo
+T. Benson
+UNS
+RB88
+N/A	N/A	261	N/A
+369	
+UNS logo
+K. Hunt
+UNS
+RB89
+N/A	N/A	262	N/A
+370	
+DAL logo
+D. Cowboys
+DAL
+DEF26
+194	201	176	200
+371	
+LVR logo
+L. Raiders
+LVR
+DEF27
+N/A	N/A	263	N/A
+372	
+SF logo
+K. Juszczyk
+SF
+RB90
+N/A	N/A	264	N/A
+373	
+NO logo
+D. Carlson
+NO
+K22
+N/A	N/A	265	N/A
+376	
+TB logo
+C. Otton
+TB
+TE24
+197	236	266	259
+378	
+ATL logo
+M. Penix Jr.
+ATL
+QB31
+N/A	246	267	238
+379	
+DET logo
+S. Vaki
+DET
+RB91
+N/A	N/A	268	N/A
+380	
+UNS logo
+T. Goodson
+UNS
+RB92
+N/A	N/A	269	N/A
+381	
+SF logo
+I. Guerendo
+SF
+RB93
+N/A	N/A	270	N/A
+382	
+CAR logo
+R. Fitzgerald
+CAR
+K23
+N/A	N/A	271	N/A
+384	
+CLE logo
+D. Watson
+CLE
+QB32
+N/A	N/A	272	N/A
+385	
+PHI logo
+D. Wicks
+PHI
+WR71
+N/A	N/A	273	N/A
+386	
+LVR logo
+D. Laube
+LVR
+RB94
+N/A	N/A	274	N/A
+387	
+SEA logo
+A. Barner
+SEA
+TE25
+201	203	275	181
+388	
+UNS logo
+A. Ekeler
+UNS
+RB95
+N/A	N/A	276	N/A
+389	
+LAC logo
+T. Harris
+LAC
+WR72
+N/A	212	277	250
+391	
+NO logo
+D. Vele
+NO
+WR73
+N/A	242	278	283
+393	
+UNS logo
+A. Mattison
+UNS
+RB96
+N/A	N/A	280	N/A
+394	
+CAR logo
+T. Etienne
+CAR
+RB97
+N/A	N/A	279	N/A
+395	
+UNS logo
+M. Sanders
+UNS
+RB98
+N/A	N/A	281	N/A
+397	
+BAL logo
+R. Bateman
+BAL
+WR74
+N/A	248	282	257
+398	
+IND logo
+S. Shrader
+IND
+K24
+182	N/A	283	N/A
+403	
+WAS logo
+D. Stevens
+WAS
+K25
+N/A	N/A	284	N/A
+404	
+DAL logo
+R. Flournoy
+DAL
+WR75
+N/A	217	286	251
+405	
+UNS logo
+P. Mafah
+UNS
+RB99
+N/A	N/A	285	N/A
+406	
+ATL logo
+A. Falcons
+ATL
+DEF28
+174	288	287	239
+407	
+CAR logo
+C. Panthers
+CAR
+DEF29
+N/A	271	289	276
+408	
+WAS logo
+W. Commanders
+WAS
+DEF30
+N/A	N/A	288	N/A
+411	
+PIT logo
+E. Heidenreich
+PIT
+WR100
+N/A	N/A	290	N/A
+412	
+BAL logo
+J. Lane
+BAL
+WR76
+166	177	191	161
+413	
+DAL logo
+E. Demercado
+DAL
+RB101
+N/A	N/A	291	N/A
+415	
+NO logo
+A. Estime
+NO
+RB102
+N/A	277	293	271
+416	
+PHI logo
+J. Blue
+PHI
+RB103
+N/A	226	292	241
+417	
+MIA logo
+C. Douglas
+MIA
+WR77
+205	209	294	196
+419	
+ARI logo
+A. Cardinals
+ARI
+DEF31
+N/A	N/A	296	N/A
+420	
+ATL logo
+N. Folk
+ATL
+K26
+200	N/A	295	N/A
+423	
+PIT logo
+P. Freiermuth
+PIT
+TE26
+N/A	243	297	284
+427	
+PIT logo
+G. Bernard
+PIT
+WR78
+N/A	267	298	248
+428	
+CLE logo
+R. Sanders
+CLE
+RB104
+N/A	N/A	299	N/A
+430	
+CHI logo
+R. Johnson
+CHI
+RB105
+N/A	N/A	300	N/A
+431	
+CLE logo
+S. Sanders
+CLE
+QB33
+N/A	239	N/A	267
+438	
+MIA logo
+M. Washington
+MIA
+WR79
+N/A	179	N/A	175
+444	
+JAC logo
+T. Hunter
+JAC
+WR80
+N/A	190	111	168
+447	
+ARI logo
+C. Ryland
+ARI
+K27
+N/A	285	N/A	N/A
+451	
+MIA logo
+C. Bell
+MIA
+WR81
+N/A	237	N/A	288
+452	
+ATL logo
+Z. Branch
+ATL
+WR82
+N/A	225	N/A	210
+456	
+NYG logo
+M. Fields
+NYG
+WR83
+N/A	205	N/A	218
+461	
+SEA logo
+C. Kupp
+SEA
+WR84
+206	210	N/A	197
+470	
+TEN logo
+G. Helm
+TEN
+TE27
+N/A	240	N/A	260
+471	
+ATL logo
+T. Tagovailoa
+ATL
+QB34
+N/A	244	N/A	268
+484	
+CLE logo
+A. Szmyt
+CLE
+K28
+N/A	295	N/A	N/A
+489	
+NYJ logo
+B. Grupe
+NYJ
+K29
+180	N/A	N/A	N/A
+493	
+MIA logo
+G. Dulcich
+MIA
+TE28
+198	213	N/A	247
+507	
+UNS logo
+T. Hill
+UNS
+WR85
+N/A	292	N/A	232
+508	
+LAR logo
+C. Parkinson
+LAR
+TE29
+N/A	269	N/A	N/A
+517	
+BUF logo
+K. Coleman
+BUF
+WR86
+N/A	296	N/A	262
+520	
+LAC logo
+O. Gadsden II
+LAC
+TE30
+N/A	160	N/A	141
+522	
+LVR logo
+J. Bech
+LVR
+WR87
+N/A	264	N/A	275
+535	
+NE logo
+K. Williams
+NE
+WR88
+N/A	298	N/A	224
+537	
+DET logo
+I. TeSlaa
+DET
+WR89
+N/A	214	N/A	237
+538	
+HOU logo
+N. Dell
+HOU
+WR90
+202	192	167	188
+539	
+KC logo
+C. Allen
+KC
+WR91
+N/A	186	N/A	176
+546	
+UNS logo
+J. Mixon
+UNS
+RB106
+N/A	252	N/A	236
+624	
+UNS logo
+D. Neal
+UNS
+RB107
+N/A	287	N/A	211
+650	
+MIA logo
+R. Patterson
+MIA
+K30
+N/A	268	N/A	N/A
+681	
+DEN logo
+M. Mims Jr.
+DEN
+WR92
+N/A	272	N/A	221
+683	
+LAC logo
+D. Njoku
+LAC
+TE31
+N/A	220	N/A	226
+691	
+DEN logo
+T. Franklin
+DEN
+WR93
+N/A	249	N/A	297
+695	
+TB logo
+T. Hurst
+TB
+WR94
+N/A	251	N/A	282
+700	
+SEA logo
+T. Horton
+SEA
+WR95
+N/A	270	N/A	242
+705	
+NYG logo
+D. Mooney
+NYG
+WR96
+N/A	258	N/A	N/A
+725	
+WAS logo
+A. Williams
+WAS
+WR97
+N/A	N/A	N/A	264
+727	
+NYJ logo
+M. Taylor
+NYJ
+TE32
+N/A	300	N/A	229
+733	
+TEN logo
+E. Ayomanor
+TEN
+WR98
+N/A	281	N/A	294
+745	
+BAL logo
+E. Sarratt
+BAL
+WR99
+N/A	N/A	N/A	244
+757	
+PHI logo
+E. Stowers
+PHI
+TE33
+N/A	N/A	N/A	278
+763	
+SF logo
+C. Kirk
+SF
+WR100
+N/A	260	N/A	295
+805	
+TEN logo
+C. Dike
+TEN
+WR101
+N/A	289	N/A	245
+808	
+LAR logo
+M. Klare
+LAR
+TE34
+N/A	297	N/A	N/A
+812	
+NYG logo
+T. Johnson
+NYG
+TE35
+N/A	284	N/A	255
+929	
+SF logo
+J. Tonges
+SF
+TE36
+N/A	265	N/A	293
+1016	
+MIN logo
+J. McCarthy
+MIN
+QB35
+N/A	259	N/A	228
+1023	
+LAR logo
+T. Simpson
+LAR
+QB36
+N/A	N/A	N/A	296
+1059	
+BAL logo
+A. Miller
+BAL
+WR102
+N/A	N/A	N/A	269
+1180	
+HOU logo
+D. Jackson
+HOU
+WR103
+N/A	N/A	N/A	274
+1232	
+UNS logo
+C. Uzomah
+UNS
+TE37
+N/A	N/A	N/A	300
+1245	
+UNS logo
+J. Deguara
+UNS
+TE38
+N/A	N/A	N/A	279
+1877	
+UNS logo
+J. Moody
+UNS
+K31
+N/A	294	N/A	N/A
