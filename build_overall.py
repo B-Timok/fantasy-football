@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""Build data/rankings.csv from data/overall.txt + the per-position files.
+"""Build data/rankings.csv.
 
-Each line of overall.txt is a player (fuzzy-matched against the positional
-CSVs) or "Tier X". Players in the positional files but not in overall.txt are
-appended afterwards, ordered by positional tier then points per game, with K
-and DEF last -- so the tool still works while the overall list is partial.
+Default (--source draftsharks): the DraftSharks 250 is the overall order.
+Each row is matched to your per-position files to pick up your full name,
+positional tier (used for the last-in-tier bonus) and last season's ppg;
+players you rank that DraftSharks doesn't are appended by tier.
+
+--source overall: your data/overall.txt is the order (one player per line,
+"Tier X" lines optional); unlisted players are appended by DraftSharks rank,
+then by tier.
 """
+import argparse
 import csv
 import os
 import sys
@@ -80,7 +85,54 @@ def load_ds_ranks(players):
     return out
 
 
-def main():
+def write_rankings(out, path):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["rank", "name", "pos", "team", "tier", "ovr_tier", "pos_rank", "ppg", "ds_rank"])
+        for r, (p, ovr_tier) in enumerate(out, 1):
+            w.writerow([r, p["name"], p["pos"], p.get("team", ""), p.get("tier") or "", ovr_tier,
+                        p.get("pos_rank") or "", p.get("ppg", ""), p.get("ds_rank", "")])
+
+
+def build_from_draftsharks():
+    from draftkit.data import PlayerIndex
+    from draftkit.models import Player
+    players = load_positional()
+    objs = [Player(name=p["name"], pos=p["pos"], rank=i + 1, team=p.get("team", ""))
+            for i, p in enumerate(players)]
+    by_key = {p["key"]: p for p in players}
+    idx = PlayerIndex(objs)
+    path = os.path.join(DATA, "draftsharks.csv")
+    out, used = [], set()
+    with open(path, newline="", encoding="utf-8") as f:
+        for d in csv.DictReader(f):
+            if d.get("team", "").upper() == "UNS":
+                continue  # unsigned free agents: not draftable
+            pos = normalize_pos(d["pos"])
+            hit = idx.find(d["name"], pos, d.get("team", ""))
+            if hit is not None and hit.key not in used:
+                p = dict(by_key[hit.key])
+                used.add(hit.key)
+            else:
+                p = {"name": d["name"], "pos": pos, "team": d.get("team", ""), "tier": None,
+                     "pos_rank": int(d.get("pos_rank") or 0), "ppg": ""}
+            p["ds_rank"] = int(d["ds_rank"])
+            out.append((p, int(d.get("ds_tier") or 0)))
+    n_ds = len(out)
+    rest = [p for p in players if p["key"] not in used]
+
+    def sort_key(p):
+        grp = {"K": 1, "DEF": 2}.get(p["pos"], 0)
+        return (grp, p["tier"], -float(p.get("ppg") or 0))
+    for p in sorted(rest, key=sort_key):
+        out.append((p, ""))
+    write_rankings(out, os.path.join(DATA, "rankings.csv"))
+    print(f"wrote {len(out)} players to data/rankings.csv: {n_ds} in DraftSharks order "
+          f"({len(used)} matched to your positional lists), {len(rest)} of yours appended")
+    return 0
+
+
+def build_from_overall():
     players = load_positional()
     ds = load_ds_ranks(players)
     out, problems, used = [], [], set()
@@ -117,18 +169,22 @@ def main():
     for p in sorted(rest, key=sort_key):
         out.append((p, ""))
     path = os.path.join(DATA, "rankings.csv")
-    with open(path, "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        w.writerow(["rank", "name", "pos", "team", "tier", "ovr_tier", "pos_rank", "ppg"])
-        for r, (p, ovr_tier) in enumerate(out, 1):
-            w.writerow([r, p["name"], p["pos"], p.get("team", ""), p["tier"], ovr_tier,
-                        p["pos_rank"], p.get("ppg", "")])
+    for p, _ in out:
+        p["ds_rank"] = ds.get(p["key"], "")
+    write_rankings(out, path)
     n_ds = sum(1 for p in rest if p["key"] in ds)
     print(f"wrote {len(out)} players to {path}: {n_listed} from overall.txt, "
           f"{len(rest)} appended ({n_ds} ordered by draftsharks rank, rest by tier)")
     for pr in problems:
         print("  PROBLEM: " + pr)
     return 1 if problems else 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--source", choices=["draftsharks", "overall"], default="draftsharks")
+    a = ap.parse_args()
+    return build_from_draftsharks() if a.source == "draftsharks" else build_from_overall()
 
 
 if __name__ == "__main__":

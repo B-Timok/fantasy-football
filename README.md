@@ -22,6 +22,11 @@ rank,name,pos,team,tier,adp,bye
 2,Ja'Marr Chase,WR,CIN,1,2.1,10
 ```
 
+The current setup uses the DraftSharks 250 as the overall order, matched to
+your per-position tier files: `python build_overall.py` rebuilds
+`data/rankings.csv` from `data/draftsharks.csv` + `data/rankings_<POS>.csv`.
+Use `--source overall` to build from your own `data/overall.txt` instead.
+
 Have your rankings as a pasted text list instead? Convert it:
 
 ```

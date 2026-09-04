@@ -254,7 +254,7 @@ def add_unranked(players: list[Player], rows: list[dict]) -> int:
     n = 0
     for r in sorted(rows, key=lambda r: r["adp"]):
         pos = r.get("pos") or "WR"
-        if pos not in POSITIONS:
+        if pos not in POSITIONS or (r.get("team") or "").upper() == "UNS":
             continue
         key = normalize_name(r["name"])
         if not key or key in known:
