@@ -94,6 +94,22 @@ type `auto` to let the engine pick for you. `--seed 3` makes a mock
 repeatable. Mock state is kept separately (`data/mock_state.json`) so it
 never touches a real draft in progress.
 
+## Simulate: which strategy for which slot, and tuning
+
+```
+python simulate.py                 # every slot x every strategy, 60 drafts each
+python simulate.py --sims 200 --slots 7
+python simulate.py --tune          # random search over the engine weights
+```
+
+Opponents draft by ADP with noise; you follow the engine. Each roster is
+scored by the estimated points per game of its best starting lineup plus
+0.3 x the top three bench RB/WR. Results go to `data/sim_results.json`,
+which `draft.py` reads to suggest a strategy for your slot, and `--tune`
+writes `data/engine_params.json`, which `draft.py` loads automatically.
+Caveats: the scorer uses last season's points per game (rookies get a
+positional estimate), and opponents never deviate from ADP by strategy.
+
 ## 3. How it decides
 
 For every available player:

@@ -3,15 +3,17 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import json
 import os
 import random
 import shlex
 import sys
 from typing import Optional
 
-from . import strategies
+from . import sim, strategies
 from .data import (add_unranked, apply_adp, apply_adp_full, apply_positional_rankings,
                    load_league, load_rankings, write_sample_rankings)
+from . import engine
 from .engine import build_roster, p_available, recommend
 from .models import League, Player, POSITIONS, normalize_name, normalize_pos
 from .state import DraftState
@@ -41,8 +43,18 @@ Commands (case-insensitive, partial names are fine):
 """
 
 
-# roster caps used for simulated opponents in --mock mode
-MOCK_CAPS = {"QB": 2, "RB": 7, "WR": 7, "TE": 2, "K": 1, "DEF": 1}
+def suggest_strategy(slot: int, teams: int) -> str:
+    """Best strategy for this slot from simulate.py results if present, else a rule of thumb."""
+    path = os.path.join(DATA, "sim_results.json")
+    if os.path.exists(path):
+        try:
+            with open(path) as f:
+                row = json.load(f).get(str(slot), {})
+            if row:
+                return max(row, key=lambda n: row[n]["mean"])
+        except (ValueError, KeyError):
+            pass
+    return strategies.suggest_for_slot(slot, teams)
 
 
 class Draft:
@@ -58,41 +70,14 @@ class Draft:
 
     # ---- mock opponents ------------------------------------------------
     def mock_pick(self) -> Optional[Player]:
-        """Simulated opponent: take a player near the top of the ADP board with
-        noise that grows later in the draft, respecting simple roster caps."""
         st, lg = self.state, self.league
         now = st.current_pick
         slot = lg.slot_of(now)
-        rnd = lg.round_of(now)
         counts: dict[str, int] = {}
         for pk in st.picks:
             if pk.slot == slot:
                 counts[pk.pos] = counts.get(pk.pos, 0) + 1
-        rounds_left = lg.rounds - rnd  # after this one
-        need_kd = [p for p in ("K", "DEF") if counts.get(p, 0) == 0]
-        avail = self.available()
-        if not avail:
-            return None
-
-        def ok(p: Player, strict: bool) -> bool:
-            if counts.get(p.pos, 0) >= MOCK_CAPS.get(p.pos, 9):
-                return False
-            if not strict:
-                return True
-            if p.pos in ("K", "DEF") and rounds_left >= 2 and self.rng.random() > 0.05:
-                return False  # almost nobody takes K/DEF before the last two rounds
-            if rounds_left < len(need_kd) and p.pos not in need_kd:
-                return False  # must fill K/DEF at the end
-            return True
-
-        pool = [p for p in avail if ok(p, True)] or [p for p in avail if ok(p, False)] or avail
-        best, best_score = None, None
-        for p in pool:
-            adp = p.adp_or_rank
-            score = adp + self.rng.gauss(0, 1.5 + 0.08 * adp)
-            if best_score is None or score < best_score:
-                best, best_score = p, score
-        return best
+        return sim.opponent_pick(self.available(), counts, lg.round_of(now), lg, self.rng)
 
     def run_mock_until_my_pick(self) -> None:
         st, lg = self.state, self.league
@@ -491,6 +476,11 @@ def main(argv=None) -> int:
         args.state = os.path.join(DATA, "mock_state.json" if args.mock else "draft_state.json")
 
     league = load_league(args.league)
+    params_path = os.path.join(DATA, "engine_params.json")
+    if os.path.exists(params_path):
+        with open(params_path) as f:
+            engine.set_params(json.load(f))
+        print(f"Using tuned weights from {os.path.basename(params_path)}")
     rankings_path = args.rankings
     if args.sample:
         rankings_path = os.path.join(DATA, "rankings.sample.csv")
@@ -523,7 +513,7 @@ def main(argv=None) -> int:
         while not slot:
             ans = input(f"Your draft slot (1-{league.teams}): ").strip()
             slot = int(ans) if ans.isdigit() else 0
-        strat = args.strategy or strategies.suggest_for_slot(slot, league.teams)
+        strat = args.strategy or suggest_strategy(slot, league.teams)
         state = DraftState(slot=slot, strategy=strategies.get(strat).name, path=args.state)
         state.save()
         print(f"New draft: slot {slot}, strategy {state.strategy} "

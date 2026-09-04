@@ -26,6 +26,24 @@ COUNT_DISCOUNT = {"QB": {1: 0.35, 2: 0.02}, "TE": {1: 0.35, 2: 0.02},
                   "K": {1: 0.0}, "DEF": {1: 0.0}, "RB": {6: 0.3}, "WR": {6: 0.3}}
 
 
+def get_params() -> dict:
+    return {"URGENCY_W": URGENCY_W, "LAST_IN_TIER_BONUS": LAST_IN_TIER_BONUS,
+            "FLEX_DISCOUNT": FLEX_DISCOUNT,
+            "BENCH_RBWR": BENCH_DISCOUNT["RB"], "BENCH_QBTE": BENCH_DISCOUNT["QB"]}
+
+
+def set_params(params: dict) -> None:
+    """Override the tunable weights (see simulate.py --tune)."""
+    global URGENCY_W, LAST_IN_TIER_BONUS, FLEX_DISCOUNT
+    URGENCY_W = float(params.get("URGENCY_W", URGENCY_W))
+    LAST_IN_TIER_BONUS = float(params.get("LAST_IN_TIER_BONUS", LAST_IN_TIER_BONUS))
+    FLEX_DISCOUNT = float(params.get("FLEX_DISCOUNT", FLEX_DISCOUNT))
+    if "BENCH_RBWR" in params:
+        BENCH_DISCOUNT["RB"] = BENCH_DISCOUNT["WR"] = float(params["BENCH_RBWR"])
+    if "BENCH_QBTE" in params:
+        BENCH_DISCOUNT["QB"] = BENCH_DISCOUNT["TE"] = float(params["BENCH_QBTE"])
+
+
 def base_value(rank: int, horizon: int = 220) -> float:
     """Map overall rank to a 0-100 value with a steep top end."""
     x = min(max(rank - 1, 0), horizon) / horizon
