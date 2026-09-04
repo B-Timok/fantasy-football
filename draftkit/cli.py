@@ -72,6 +72,10 @@ class Draft:
         exact = [p for p in pool if p.key == q]
         if exact:
             return exact
+        # a unique last-name match wins outright ("chase" -> Ja'Marr Chase, not Chase Brown)
+        last = [p for p in pool if p.key.split()[-1] == q]
+        if len(last) == 1:
+            return last
         starts = [p for p in pool if p.key.startswith(q)]
         contains = [p for p in pool if q in p.key and p not in starts]
         word = [p for p in pool if any(w.startswith(q) for w in p.key.split())

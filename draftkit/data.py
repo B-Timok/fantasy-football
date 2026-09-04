@@ -18,6 +18,7 @@ ALIASES = {
     "adp": {"adp", "avgpick", "averagedraftposition", "sleeperadp"},
     "bye": {"bye", "byeweek"},
     "pos_rank": {"posrank", "positionrank", "prk", "positionalrank"},
+    "ppg": {"ppg", "pts", "points", "fpts", "pprpoints", "proj", "projection"},
 }
 
 
@@ -95,7 +96,7 @@ def load_rankings(path: str) -> list[Player]:
             name=name, pos=pos, rank=rank, team=d.get("team", "").upper(),
             pos_rank=_to_int(d.get("pos_rank")) or embedded_prk or 0,
             tier=_to_int(d.get("tier")), adp=_to_float(d.get("adp")),
-            bye=_to_int(d.get("bye")),
+            bye=_to_int(d.get("bye")), ppg=_to_float(d.get("ppg")),
         ))
     players.sort(key=lambda p: p.rank)
     # re-number ranks densely and fill positional ranks
@@ -137,6 +138,8 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
             p.pos_rank = prk
             if tier is not None:
                 p.tier = tier
+            if _to_float(d.get("ppg")) is not None:
+                p.ppg = _to_float(d.get("ppg"))
         notes.append(f"{os.path.basename(path)}: {len(rows)} rows, {n_new} new players")
     return notes
 

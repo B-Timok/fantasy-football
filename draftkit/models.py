@@ -40,6 +40,7 @@ class Player:
     tier: Optional[int] = None
     adp: Optional[float] = None
     bye: Optional[int] = None
+    ppg: Optional[float] = None
     key: str = field(default="", repr=False)
 
     def __post_init__(self):

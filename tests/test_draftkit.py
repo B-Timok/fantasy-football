@@ -192,6 +192,13 @@ class TestStateAndCli(unittest.TestCase):
         self.assertEqual(d.find("bijon robinson")[0].name, "Bijan Robinson")
         self.assertEqual(d.find("st brown")[0].pos, "WR")
 
+    def test_find_prefers_unique_last_name(self):
+        ps = [Player("Ja'Marr Chase", "WR", 3), Player("Chase Brown", "RB", 12),
+              Player("A.J. Brown", "WR", 19)]
+        d = Draft(ps, self.lg, self.state)
+        self.assertEqual([p.name for p in d.find("chase")], ["Ja'Marr Chase"])
+        self.assertEqual(len(d.find("brown")), 2)
+
     def test_full_draft_runs(self):
         """Auto-draft all 180 picks with the engine and check the roster is legal."""
         import io, contextlib
