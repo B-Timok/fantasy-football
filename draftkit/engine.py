@@ -268,7 +268,7 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
         if gate < 1.0:
             reasons.append(f"K/DEF too early -{(1 - gate) * 100:.0f}%")
         if p.adp is not None and p.adp - now_pick >= 10:
-            reasons.append(f"value (ADP {p.adp:.0f})")
+            reasons.append(f"you rank him above his ADP ({p.adp:.0f})")
         if p.injury is not None and p.injury >= 0.65:
             reasons.append(f"injury risk {p.injury * 100:.0f}%")
         recs.append(Recommendation(p, score, value, pa, urgency, sm, nm, reasons))

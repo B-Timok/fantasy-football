@@ -200,7 +200,7 @@ class Draft:
         print()
         yours_hdr = f"{'@yours':>6} " if not mine else ""
         print(c(f"{'#':>2} {'score':>6}  {'player':<26}{'pos':<5}{'rk':>4} {'tier':>4} {'adp':>5} "
-                f"{'bye':>3} {yours_hdr}{'@next':>5}  why", "dim"))
+                f"{'vsADP':>6} {'bye':>3} {yours_hdr}{'@next':>5}  why", "dim"))
         shown, longshots = 0, []
         for r in recs:
             p = r.player
@@ -224,7 +224,9 @@ class Draft:
             yours_c = color.pct(p_yours, f"{yours_s:>6}") if not mine else ""
             why = c("; ", "dim").join(color.reason(x) for x in r.reasons)
             print(f"{shown:>2} {r.score:>6.1f}  {name}{posl}"
-                  f"{p.rank:>4} {tier:>4} {adp:>5} {bye:>3} {yours_c}{avail_c}  {why}")
+                  f"{p.rank:>4} {tier:>4} {adp:>5} {self.vs_adp(p, target)} {bye:>3} "
+                  f"{yours_c}{avail_c}  {why}")
+        self.print_fallers(avail, target)
         if longshots:
             print(c(f"   unlikely to reach you: {', '.join(longshots[:6])}", "dim"))
         print()
@@ -242,6 +244,29 @@ class Draft:
             nxt_c = c(nxt_s, "red") if drop >= 1.5 else (c(nxt_s, "yellow") if drop >= 0.7 else nxt_s)
             print(f"{color.pad(color.pos(pos, pos), 4, len(pos))}{bn:<29}{ln:<32}{o.ppg_now:>8.1f} "
                   f"{nxt_c} {o.n_expected_gone:>5.1f}")
+
+    @staticmethod
+    def vs_adp(p: Player, pick_no: int) -> str:
+        """+N = usually drafted N picks earlier than this (he fell to you); -N = a reach."""
+        if p.adp is None:
+            return f"{'-':>6}"
+        gap = pick_no - p.adp
+        txt = f"{gap:+.0f}".rjust(6)
+        if gap >= 8:
+            return c(txt, "bright_green")
+        if gap <= -8:
+            return c(txt, "red")
+        return txt
+
+    def print_fallers(self, avail: list[Player], pick_no: int, n: int = 5) -> None:
+        """Players still available well past their ADP, regardless of score."""
+        fallers = [p for p in avail if p.adp is not None and p.adp <= pick_no - 3
+                   and p.pos not in ("K", "DEF")]
+        fallers.sort(key=lambda p: p.adp)
+        if fallers:
+            items = ", ".join(f"{color.pos(p.name, p.pos)} (ADP {p.adp:.0f}, "
+                              f"{c(f'+{pick_no - p.adp:.0f}', 'bright_green')})" for p in fallers[:n])
+            print(c("   falling to you: ", "dim") + items)
 
     def board(self, pos: Optional[str], n: int) -> None:
         avail = self.available()

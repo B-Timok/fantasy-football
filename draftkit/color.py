@@ -42,7 +42,7 @@ def reason(r: str) -> str:
         return c(r, "red")
     if "last " in r and "tier" in r:
         return c(r, "yellow")
-    if r.startswith("value") or "likely still there" in r:
+    if r.startswith("you rank") or "likely still there" in r:
         return c(r, "green")
     if "waiting on" in r:
         return c(r, "cyan")
