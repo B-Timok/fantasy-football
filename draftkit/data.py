@@ -158,35 +158,50 @@ class PlayerIndex:
             self.by_key.setdefault(p.key, []).append(p)
             self.by_last.setdefault(p.key.split()[-1], []).append(p)
 
-    def find(self, raw_name: str, pos: Optional[str] = None,
-             team: str = "") -> Optional[Player]:
+    def find_all(self, raw_name: str, pos: Optional[str] = None,
+                 team: str = "") -> list[Player]:
+        """All plausible matches, best first. An abbreviated query ("B Robinson")
+        that fits several players returns them ordered by rank, so callers can
+        take the best one not yet assigned."""
         toks = raw_name.split()
         if len(toks) > 1 and toks[-1].upper() in self.teams and toks[-1].isupper():
             toks = toks[:-1]
         key = normalize_name(" ".join(toks))
         if not key:
-            return None
+            return []
         parts = key.split()
+        abbreviated = len(parts) >= 2 and len(parts[0]) == 1
 
         def narrow(cands):
             return [c for c in cands if c.pos == pos] if pos else cands
 
-        cands = narrow(self.by_key.get(key, []))
-        if not cands and len(parts) >= 2:
+        exact = narrow(self.by_key.get(key, []))
+        if exact and not abbreviated:
+            return sorted(exact, key=lambda c: c.rank)
+        shape, loose = [], []
+        if len(parts) >= 2:
             tail, initial = parts[1:], parts[0][0]
             pool = [c for c in narrow(self.by_last.get(parts[-1], [])) if c.key[0] == initial]
-            cands = [c for c in pool if c.key.split()[1:] == tail]
-            if not cands:
-                cands = [c for c in pool if c.key.endswith(" " + " ".join(tail))]
+            shape = [c for c in pool if c.key.split()[1:] == tail and c not in exact]
+            loose = [c for c in pool if c.key.endswith(" " + " ".join(tail))
+                     and c not in exact and c not in shape]
+        cands = sorted(exact + shape, key=lambda c: c.rank)
         if not cands:
-            cands = narrow(self.by_last.get(parts[-1], []))
-            if len(cands) != 1:
-                cands = []
+            cands = sorted(loose, key=lambda c: c.rank)
+        if not cands:
+            last = narrow(self.by_last.get(parts[-1], []))
+            if len(last) == 1:
+                cands = last
         if not cands and pos == "DEF":
             team = (team or "").upper()
             cands = [c for c in self.players if c.pos == "DEF" and
                      (c.team == team or parts[-1] in c.key.split())]
-        return cands[0] if len(cands) == 1 else None
+        return cands
+
+    def find(self, raw_name: str, pos: Optional[str] = None,
+             team: str = "") -> Optional[Player]:
+        cands = self.find_all(raw_name, pos, team)
+        return cands[0] if cands else None
 
 
 def apply_adp(players: list[Player], path: str, replace: bool = False) -> int:
@@ -206,13 +221,15 @@ def apply_adp_full(players: list[Player], path: str, replace: bool = False):
         if adp is None:
             continue
         pos, _ = _split_pos_field(d.get("pos", ""))
-        p = idx.find(d.get("name", ""), pos, d.get("team", ""))
+        cands = idx.find_all(d.get("name", ""), pos, d.get("team", ""))
+        p = next((cnd for cnd in cands if replace or cnd.adp is None), None)
         if p is None:
-            unmatched.append({"name": d.get("name", "").strip(), "pos": pos,
-                              "team": d.get("team", ""), "adp": adp})
-        elif replace or p.adp is None:
-            p.adp = adp
-            matched += 1
+            if not cands:
+                unmatched.append({"name": d.get("name", "").strip(), "pos": pos,
+                                  "team": d.get("team", ""), "adp": adp})
+            continue
+        p.adp = adp
+        matched += 1
     return matched, unmatched
 
 
@@ -231,8 +248,9 @@ def apply_draftsharks(players: list[Player], path: str):
     matched, unmatched = 0, []
     for d in rows:
         pos = normalize_pos(d.get("pos", ""))
-        p = idx.find(d.get("name", ""), pos, d.get("team", ""))
-        if p is None or p.ds_rank is not None:   # rows come best-first; first match wins
+        cands = idx.find_all(d.get("name", ""), pos, d.get("team", ""))
+        p = next((cnd for cnd in cands if cnd.ds_rank is None), None)  # best unassigned
+        if p is None:
             unmatched.append({"name": d["name"], "pos": pos, "team": d.get("team", ""),
                               "adp": _to_float(d.get("adp")) or 999.0, "ds": d})
             continue
