@@ -145,25 +145,38 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
 
 
 def apply_adp(players: list[Player], path: str) -> int:
-    """Merge an ADP CSV (name, adp[, pos]) into players. Returns number matched."""
+    """Merge an ADP CSV (name, adp[, pos, team]) into players. Exact normalized
+    name first, then a unique last-name (+position) match. Returns number matched."""
     if not path or not os.path.exists(path):
         return 0
     rows = _read_rows(path)
     by_key: dict[str, list[Player]] = {}
+    by_last: dict[str, list[Player]] = {}
     for p in players:
         by_key.setdefault(p.key, []).append(p)
+        by_last.setdefault(p.key.split()[-1], []).append(p)
     matched = 0
     for d in rows:
         adp = _to_float(d.get("adp")) or _to_float(d.get("rank"))
         if adp is None:
             continue
-        cands = by_key.get(normalize_name(d.get("name", "")), [])
+        key = normalize_name(d.get("name", ""))
+        if not key:
+            continue
         pos, _ = _split_pos_field(d.get("pos", ""))
+        cands = by_key.get(key, [])
         if pos:
             cands = [c for c in cands if c.pos == pos] or cands
+        if not cands:
+            cands = by_last.get(key.split()[-1], [])
+            if pos:
+                cands = [c for c in cands if c.pos == pos]
+            if len(cands) != 1:
+                cands = []
         for c in cands:
-            c.adp = adp
-            matched += 1
+            if c.adp is None:
+                c.adp = adp
+                matched += 1
     return matched
 
 
