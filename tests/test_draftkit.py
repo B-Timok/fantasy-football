@@ -205,6 +205,18 @@ class TestStateAndCli(unittest.TestCase):
         self.assertEqual(d.find("bijon robinson")[0].name, "Bijan Robinson")
         self.assertEqual(d.find("st brown")[0].pos, "WR")
 
+    def test_lopsided_match_auto_resolves(self):
+        import io, contextlib
+        ps = [Player("Derrick Henry", "RB", 24), Player("Hunter Henry", "TE", 200),
+              Player("Kyren Williams", "RB", 43), Player("Javonte Williams", "RB", 36)]
+        d = Draft(ps, self.lg, self.state)
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertTrue(d.pick("henry", mine=None))
+        self.assertEqual(self.state.picks[-1].name, "Derrick Henry")
+        with contextlib.redirect_stdout(io.StringIO()):
+            # a real tie still asks; with no stdin it cancels
+            self.assertFalse(d.pick("williams", mine=None))
+
     def test_find_prefers_unique_last_name(self):
         ps = [Player("Ja'Marr Chase", "WR", 3), Player("Chase Brown", "RB", 12),
               Player("A.J. Brown", "WR", 19)]

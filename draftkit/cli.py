@@ -294,6 +294,10 @@ class Draft:
             if ans == "y":
                 return self.add_unknown(text, mine)
             return False
+        if len(hits) > 1 and hits[1].rank - hits[0].rank >= 80:
+            # "henry" -> Derrick Henry, not Hunter Henry: lopsided, don't ask
+            print(f"  (assumed {hits[0].name}; also matched {hits[1].name} — 'undo' if wrong)")
+            hits = hits[:1]
         if len(hits) > 1 and not (hits[0].key == normalize_name(text)):
             print("Which one?")
             for i, p in enumerate(hits[:8], 1):
