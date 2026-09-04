@@ -141,6 +141,19 @@ class TestDataLoading(unittest.TestCase):
         self.assertEqual(ps[2].rank, 3)  # densely renumbered after skipping the LB
         self.assertEqual(ps[0].pos_rank, 1)
 
+    def test_apply_adp_initials(self):
+        ps = [Player("A.J. Brown", "WR", 1), Player("Amon-Ra St. Brown", "WR", 2),
+              Player("Jordan Love", "QB", 3), Player("Jeremiyah Love", "RB", 4),
+              Player("Philadelphia Eagles", "DEF", 5)]
+        path = tempfile.mktemp(suffix=".csv")
+        with open(path, "w") as f:
+            f.write("name,pos,team,adp\nA. Brown,WR,NE,20\nA. St. Brown,WR,DET,8\n"
+                    "J. Love,QB,GB,95\nJ. Love,RB,ARI,40\nEagles,DEF,PHI,120\n")
+        n = apply_adp(ps, path)
+        os.remove(path)
+        self.assertEqual(n, 5)
+        self.assertEqual([p.adp for p in ps], [20, 8, 95, 40, 120])
+
     def test_apply_adp(self):
         ps = [Player("Bijan Robinson", "RB", 1), Player("Josh Allen", "QB", 2)]
         path = tempfile.mktemp(suffix=".csv")

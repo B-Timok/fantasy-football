@@ -180,10 +180,12 @@ def apply_adp(players: list[Player], path: str) -> int:
 
         cands = narrow(by_key.get(key, []))
         if not cands and len(parts) >= 2:
-            # "j gibbs" -> Jahmyr Gibbs; "a st brown" -> Amon-Ra St. Brown (not A.J. Brown)
-            tail, initial = " ".join(parts[1:]), parts[0][0]
-            cands = [c for c in narrow(by_last.get(parts[-1], []))
-                     if c.key[0] == initial and c.key.endswith(" " + tail)]
+            # "j gibbs" -> Jahmyr Gibbs; "a brown" -> A.J. Brown; "a st brown" -> Amon-Ra St. Brown
+            tail, initial = parts[1:], parts[0][0]
+            pool = [c for c in narrow(by_last.get(parts[-1], [])) if c.key[0] == initial]
+            cands = [c for c in pool if c.key.split()[1:] == tail]          # same shape
+            if not cands:
+                cands = [c for c in pool if c.key.endswith(" " + " ".join(tail))]
         if not cands:
             cands = narrow(by_last.get(parts[-1], []))
             if len(cands) != 1:
