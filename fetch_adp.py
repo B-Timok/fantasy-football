@@ -20,7 +20,10 @@ from draftkit.models import normalize_pos
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "adp.csv")
 POS_RE = r"(QB|RB|WR|TE|K|PK|DST|DEF|D/ST)"
-NAME_RE = r"([A-Z][A-Za-z.'\-]+(?:\s+[A-Z][A-Za-z.'\-]+){0,3}(?:\s+(?:Jr|Sr|II|III|IV)\.?)?)"
+# name stays on one line; "J. Gibbs" style initials are fine
+NAME_RE = r"([A-Z][A-Za-z.'\-]*(?:[ \t]+[A-Z][A-Za-z.'\-]+){0,3}(?:[ \t]+(?:Jr|Sr|II|III|IV)\.?)?)"
+TEAM_RE = r"(?:[A-Z]{2,3})"
+SEP = r"[\s,|()\-]*"
 
 
 class TableParser(HTMLParser):
@@ -88,10 +91,21 @@ def rows_from_html(html):
 
 def rows_from_text(text):
     text = text.replace(" ", " ")
-    pat = re.compile(NAME_RE + r"[\s,|()\-]*" + POS_RE + r"\d*\b[\s,|()\-]*([A-Z]{2,3})?\b[^\n\d]*?(\d{1,3}(?:\.\d+)?)")
+    # name [team] pos[rank] [team] ... adp    (team may sit before or after the position)
+    pat = re.compile(NAME_RE + SEP + r"(" + TEAM_RE + r")?" + SEP + r"\b" + POS_RE + r"\d*\b"
+                     + SEP + r"(" + TEAM_RE + r")?\b[^\d]{0,40}?(\d{1,3}(?:\.\d+)?)")
     out, seen = [], set()
     for m in pat.finditer(text):
-        name, pos, team, adp = m.group(1).strip(), normalize_pos(m.group(2)), m.group(3) or "", float(m.group(4))
+        name = m.group(1).strip()
+        pos = normalize_pos(m.group(3))
+        team = m.group(2) or m.group(4) or ""
+        adp = float(m.group(5))
+        # a team code glued to the end of the name ("J. Chase CIN")
+        nt = name.split()
+        if len(nt) > 1 and re.fullmatch(TEAM_RE, nt[-1]) and nt[-1] not in ("II", "III", "IV", "JR", "SR"):
+            name, team = " ".join(nt[:-1]), team or nt[-1]
+        if len(name) < 3:
+            continue
         if name.lower() in seen or name.lower() in ("player", "name"):
             continue
         seen.add(name.lower())
@@ -116,7 +130,7 @@ def main():
         if len(rows) < 20:
             stripped = re.sub(r"(?is)<(script|style).*?</\1>", " ", html)
             rows = rows_from_text(re.sub(r"<[^>]+>", "\n", stripped))
-    if len(rows) < 20:
+    if not rows or (len(rows) < 20 and not a.text):
         print(f"Found only {len(rows)} usable rows, not writing {a.out}.")
         print("The page is probably rendered by JavaScript. Select the whole ADP table in your")
         print("browser, copy, paste into a file (e.g. adp.txt), then run:")
@@ -139,6 +153,10 @@ def main():
         missing = [p for p in players if p.adp is None and p.rank <= 120]
         have = sum(1 for p in players if p.adp is not None)
         print(f"ADP matched for {have}/{len(players)} ranked players.")
+        if have < len(players) // 2:
+            print("Low match rate. First rows of adp.csv, for debugging:")
+            for r in rows[:5]:
+                print("   " + ", ".join(str(x) for x in r))
         if missing:
             print("No ADP for these top-120 players (check spelling in adp.csv):")
             for p in missing:

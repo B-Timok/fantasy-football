@@ -145,13 +145,17 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
 
 
 def apply_adp(players: list[Player], path: str) -> int:
-    """Merge an ADP CSV (name, adp[, pos, team]) into players. Exact normalized
-    name first, then a unique last-name (+position) match. Returns number matched."""
+    """Merge an ADP CSV (name, adp[, pos, team]) into players.
+
+    Matching order: exact normalized name; last name + first initial (so
+    "J. Gibbs" matches Jahmyr Gibbs); unique last name. Position narrows each
+    step when the CSV has it. Returns number matched."""
     if not path or not os.path.exists(path):
         return 0
     rows = _read_rows(path)
     by_key: dict[str, list[Player]] = {}
     by_last: dict[str, list[Player]] = {}
+    teams = {p.team for p in players if p.team}
     for p in players:
         by_key.setdefault(p.key, []).append(p)
         by_last.setdefault(p.key.split()[-1], []).append(p)
@@ -160,23 +164,37 @@ def apply_adp(players: list[Player], path: str) -> int:
         adp = _to_float(d.get("adp")) or _to_float(d.get("rank"))
         if adp is None:
             continue
-        key = normalize_name(d.get("name", ""))
+        raw = d.get("name", "").strip()
+        # drop a trailing team code that got glued onto the name ("J. Gibbs DET")
+        toks = raw.split()
+        if len(toks) > 1 and toks[-1].upper() in teams and toks[-1].isupper():
+            toks = toks[:-1]
+        key = normalize_name(" ".join(toks))
         if not key:
             continue
+        parts = key.split()
         pos, _ = _split_pos_field(d.get("pos", ""))
-        cands = by_key.get(key, [])
-        if pos:
-            cands = [c for c in cands if c.pos == pos] or cands
+
+        def narrow(cands):
+            return [c for c in cands if c.pos == pos] if pos else cands
+
+        cands = narrow(by_key.get(key, []))
+        if not cands and len(parts) >= 2:
+            # "j gibbs" -> Jahmyr Gibbs; "a st brown" -> Amon-Ra St. Brown (not A.J. Brown)
+            tail, initial = " ".join(parts[1:]), parts[0][0]
+            cands = [c for c in narrow(by_last.get(parts[-1], []))
+                     if c.key[0] == initial and c.key.endswith(" " + tail)]
         if not cands:
-            cands = by_last.get(key.split()[-1], [])
-            if pos:
-                cands = [c for c in cands if c.pos == pos]
+            cands = narrow(by_last.get(parts[-1], []))
             if len(cands) != 1:
                 cands = []
-        for c in cands:
-            if c.adp is None:
-                c.adp = adp
-                matched += 1
+        if not cands and pos == "DEF":
+            team = (d.get("team") or "").upper()
+            cands = [c for c in players if c.pos == "DEF" and
+                     (c.team == team or parts[-1] in c.key.split())]
+        if len(cands) == 1 and cands[0].adp is None:
+            cands[0].adp = adp
+            matched += 1
     return matched
 
 
