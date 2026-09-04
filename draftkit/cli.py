@@ -4,13 +4,14 @@ from __future__ import annotations
 import argparse
 import difflib
 import os
+import random
 import shlex
 import sys
 from typing import Optional
 
 from . import strategies
-from .data import (apply_adp, apply_positional_rankings, load_league, load_rankings,
-                   write_sample_rankings)
+from .data import (add_unranked, apply_adp, apply_adp_full, apply_positional_rankings,
+                   load_league, load_rankings, write_sample_rankings)
 from .engine import build_roster, p_available, recommend
 from .models import League, Player, POSITIONS, normalize_name, normalize_pos
 from .state import DraftState
@@ -23,6 +24,7 @@ Commands (case-insensitive, partial names are fine):
   <name>              record that player as taken by whoever is on the clock
   me <name>           record the player as YOUR pick (overrides the clock)
   them <name>         record the player as another team's pick
+  x <name> [POS]      record a pick of someone NOT in your rankings (e.g. "x Joe Smith RB")
   undo                take back the last pick
   b / board [POS] [N] best available (optionally one position), default 15
   r / roster          your roster so far
@@ -33,18 +35,76 @@ Commands (case-insensitive, partial names are fine):
   strategy [NAME]     show or switch strategy
   slot N              change your draft slot
   sync                pull picks from Sleeper (needs sleeper_draft_id in league.json)
+  auto                let the engine make your pick (top recommendation)
   help                this text
   quit                exit (state is saved after every pick anyway)
 """
 
 
+# roster caps used for simulated opponents in --mock mode
+MOCK_CAPS = {"QB": 2, "RB": 7, "WR": 7, "TE": 2, "K": 1, "DEF": 1}
+
+
 class Draft:
-    def __init__(self, players: list[Player], league: League, state: DraftState):
+    def __init__(self, players: list[Player], league: League, state: DraftState,
+                 mock: bool = False, seed: Optional[int] = None):
         self.players = players
         self.by_key = {p.key: p for p in players}
         self.league = league
         self.state = state
         self.strategy = strategies.get(state.strategy)
+        self.mock = mock
+        self.rng = random.Random(seed)
+
+    # ---- mock opponents ------------------------------------------------
+    def mock_pick(self) -> Optional[Player]:
+        """Simulated opponent: take a player near the top of the ADP board with
+        noise that grows later in the draft, respecting simple roster caps."""
+        st, lg = self.state, self.league
+        now = st.current_pick
+        slot = lg.slot_of(now)
+        rnd = lg.round_of(now)
+        counts: dict[str, int] = {}
+        for pk in st.picks:
+            if pk.slot == slot:
+                counts[pk.pos] = counts.get(pk.pos, 0) + 1
+        rounds_left = lg.rounds - rnd  # after this one
+        need_kd = [p for p in ("K", "DEF") if counts.get(p, 0) == 0]
+        avail = self.available()
+        if not avail:
+            return None
+
+        def ok(p: Player, strict: bool) -> bool:
+            if counts.get(p.pos, 0) >= MOCK_CAPS.get(p.pos, 9):
+                return False
+            if not strict:
+                return True
+            if p.pos in ("K", "DEF") and rounds_left >= 2 and self.rng.random() > 0.05:
+                return False  # almost nobody takes K/DEF before the last two rounds
+            if rounds_left < len(need_kd) and p.pos not in need_kd:
+                return False  # must fill K/DEF at the end
+            return True
+
+        pool = [p for p in avail if ok(p, True)] or [p for p in avail if ok(p, False)] or avail
+        best, best_score = None, None
+        for p in pool:
+            adp = p.adp_or_rank
+            score = adp + self.rng.gauss(0, 1.5 + 0.08 * adp)
+            if best_score is None or score < best_score:
+                best, best_score = p, score
+        return best
+
+    def run_mock_until_my_pick(self) -> None:
+        st, lg = self.state, self.league
+        made = []
+        while st.current_pick <= lg.total_picks and not st.is_my_pick(lg):
+            p = self.mock_pick()
+            if p is None:
+                break
+            pk = st.add_pick(p, lg, mine=False)
+            made.append(f"#{pk.pick_no} T{pk.slot} {p.name} ({p.pos}{p.pos_rank})")
+        if made:
+            print("  mock picks: " + "; ".join(made))
 
     # ---- lookups ------------------------------------------------------
     def available(self) -> list[Player]:
@@ -202,6 +262,26 @@ class Draft:
         print(f"  Picks: {[p.pick_no for p in self.state.picks if p.mine]}")
 
     # ---- actions ------------------------------------------------------
+    def add_unknown(self, text: str, mine: Optional[bool] = None) -> bool:
+        toks = text.split()
+        pos = "WR"
+        if toks and normalize_pos(toks[-1]) and toks[-1].isalpha() and len(toks) > 1:
+            pos = normalize_pos(toks[-1])
+            toks = toks[:-1]
+        name = " ".join(toks).strip()
+        if not name:
+            print("  usage: x <name> [POS]")
+            return False
+        p = Player(name=name, pos=pos, rank=len(self.players) + 1)
+        if p.key in self.by_key:
+            return self.pick(name, mine)
+        self.players.append(p)
+        self.by_key[p.key] = p
+        pk = self.state.add_pick(p, self.league, mine)
+        tag = "YOU" if pk.mine else f"team {pk.slot}"
+        print(f"  #{pk.pick_no}: {tag} -> {name} ({pos}, unranked)")
+        return True
+
     def pick(self, text: str, mine: Optional[bool]) -> bool:
         if self.state.current_pick > self.league.total_picks:
             print("Draft is complete.")
@@ -211,8 +291,14 @@ class Draft:
             taken = [p for p in self.find(text, only_available=False)]
             if taken:
                 print(f"Already taken: {', '.join(p.name for p in taken[:3])}")
-            else:
-                print(f"No player matches '{text}'. Try 'find {text}'.")
+                return False
+            print(f"No player matches '{text}'.")
+            try:
+                ans = input("  Record as an unranked player? [y/N] ").strip().lower()
+            except EOFError:
+                ans = ""
+            if ans == "y":
+                return self.add_unknown(text, mine)
             return False
         if len(hits) > 1 and not (hits[0].key == normalize_name(text)):
             print("Which one?")
@@ -264,11 +350,33 @@ class Draft:
         if unknown:
             print("Not in your rankings (added as unranked): " + ", ".join(unknown))
 
+    def auto_pick(self) -> bool:
+        st, lg = self.state, self.league
+        if st.current_pick > lg.total_picks:
+            print("Draft is complete.")
+            return False
+        recs, _ = recommend(self.available(), self.my_players(), lg, self.strategy,
+                            st.current_pick, st.next_my_pick(lg), 1)
+        if not recs:
+            return False
+        return self.pick(recs[0].player.name, mine=st.is_my_pick(lg))
+
     # ---- loop -----------------------------------------------------------
     def run(self) -> None:
         print(HELP)
+        if self.mock:
+            print("MOCK MODE: other teams pick automatically by ADP. Type your pick when "
+                  "you're on the clock, or 'auto' to let the engine choose.")
+            self.run_mock_until_my_pick()
         self.show()
         while True:
+            if self.mock and (self.state.current_pick > self.league.total_picks
+                              or not self.available()
+                              or (not self.state.is_my_pick(self.league)
+                                  and self.state.next_my_pick(self.league) is None)):
+                print("\nMock draft complete. Your roster:")
+                self.roster()
+                break
             try:
                 line = input("\n> ").strip()
             except (EOFError, KeyboardInterrupt):
@@ -289,10 +397,16 @@ class Draft:
                 self.show()
             elif cmd == "me":
                 if self.pick(rest, mine=True):
-                    self.show()
+                    self.after_pick()
             elif cmd in ("them", "other", "t"):
                 if self.pick(rest, mine=False):
-                    self.show()
+                    self.after_pick()
+            elif cmd == "x":
+                if self.add_unknown(rest, mine=None):
+                    self.after_pick()
+            elif cmd == "auto":
+                if self.auto_pick():
+                    self.after_pick()
             elif cmd in ("u", "undo"):
                 pk = self.state.undo()
                 print(f"  undid #{pk.pick_no} {pk.name}" if pk else "  nothing to undo")
@@ -347,7 +461,12 @@ class Draft:
             else:
                 # bare player name -> pick for whoever is on the clock
                 if self.pick(line, mine=None):
-                    self.show()
+                    self.after_pick()
+
+    def after_pick(self) -> None:
+        if self.mock:
+            self.run_mock_until_my_pick()
+        self.show()
 
 
 def main(argv=None) -> int:
@@ -357,12 +476,19 @@ def main(argv=None) -> int:
     ap.add_argument("--adp", default=os.path.join(DATA, "adp.csv"),
                     help="optional ADP csv (name, adp)")
     ap.add_argument("--league", default=os.path.join(DATA, "league.json"))
-    ap.add_argument("--state", default=os.path.join(DATA, "draft_state.json"))
+    ap.add_argument("--state", default=None,
+                    help="draft state file (default data/draft_state.json, or "
+                         "data/mock_state.json with --mock)")
     ap.add_argument("--strategy", help="starting strategy (see 'strategy' command)")
     ap.add_argument("--new", action="store_true", help="discard saved draft state and start over")
     ap.add_argument("--sample", action="store_true",
                     help="write data/rankings.sample.csv with fake players and use it")
+    ap.add_argument("--mock", action="store_true",
+                    help="practice: the other teams draft automatically by ADP")
+    ap.add_argument("--seed", type=int, help="random seed for --mock (repeatable drafts)")
     args = ap.parse_args(argv)
+    if args.state is None:
+        args.state = os.path.join(DATA, "mock_state.json" if args.mock else "draft_state.json")
 
     league = load_league(args.league)
     rankings_path = args.rankings
@@ -376,7 +502,10 @@ def main(argv=None) -> int:
         return 1
     players = load_rankings(rankings_path)
     notes = apply_positional_rankings(players, os.path.dirname(rankings_path))
-    n_adp = apply_adp(players, args.adp)
+    n_adp, unmatched = apply_adp_full(players, args.adp)
+    n_extra = add_unranked(players, unmatched)
+    if n_extra:
+        print(f"Added {n_extra} unranked players from ADP file (typeable, never recommended)")
     overrides = os.path.join(os.path.dirname(args.adp), "adp_overrides.csv")
     if os.path.exists(overrides):
         n_over = apply_adp(players, overrides, replace=True)
@@ -408,5 +537,5 @@ def main(argv=None) -> int:
         print(f"Resumed draft from {args.state}: {len(state.picks)} picks recorded, "
               f"slot {state.slot}, strategy {state.strategy}. (--new to start over)")
 
-    Draft(players, league, state).run()
+    Draft(players, league, state, mock=args.mock, seed=args.seed).run()
     return 0

@@ -145,14 +145,19 @@ def apply_positional_rankings(players: list[Player], data_dir: str) -> list[str]
 
 
 def apply_adp(players: list[Player], path: str, replace: bool = False) -> int:
+    return apply_adp_full(players, path, replace)[0]
+
+
+def apply_adp_full(players: list[Player], path: str, replace: bool = False):
     """Merge an ADP CSV (name, adp[, pos, team]) into players.
 
     Matching order: exact normalized name; last name + first initial (so
     "J. Gibbs" matches Jahmyr Gibbs); unique last name. Position narrows each
     step when the CSV has it. Returns number matched."""
     if not path or not os.path.exists(path):
-        return 0
+        return 0, []
     rows = _read_rows(path)
+    unmatched: list[dict] = []
     by_key: dict[str, list[Player]] = {}
     by_last: dict[str, list[Player]] = {}
     teams = {p.team for p in players if p.team}
@@ -194,10 +199,38 @@ def apply_adp(players: list[Player], path: str, replace: bool = False) -> int:
             team = (d.get("team") or "").upper()
             cands = [c for c in players if c.pos == "DEF" and
                      (c.team == team or parts[-1] in c.key.split())]
-        if len(cands) == 1 and (replace or cands[0].adp is None):
-            cands[0].adp = adp
-            matched += 1
-    return matched
+        if len(cands) == 1:
+            if replace or cands[0].adp is None:
+                cands[0].adp = adp
+                matched += 1
+        elif not cands:
+            unmatched.append({"name": " ".join(toks), "pos": pos, "team": d.get("team", ""),
+                              "adp": adp})
+    return matched, unmatched
+
+
+def add_unranked(players: list[Player], rows: list[dict]) -> int:
+    """Append players that exist only in the ADP file, ranked after everyone
+    else, so they can be typed as opponents' picks and used by mock opponents."""
+    known = {p.key for p in players}
+    n = 0
+    for r in sorted(rows, key=lambda r: r["adp"]):
+        pos = r.get("pos") or "WR"
+        if pos not in POSITIONS:
+            continue
+        key = normalize_name(r["name"])
+        if not key or key in known:
+            continue
+        known.add(key)
+        players.append(Player(name=r["name"], pos=pos, rank=len(players) + 1,
+                              team=(r.get("team") or "").upper(), adp=r["adp"]))
+        n += 1
+    counters = {p: 0 for p in POSITIONS}
+    for p in players:
+        counters[p.pos] += 1
+        if not p.pos_rank:
+            p.pos_rank = counters[p.pos]
+    return n
 
 
 def load_league(path: str) -> League:

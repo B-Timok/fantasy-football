@@ -82,6 +82,18 @@ Sleeper users: put the draft id (the number in the draft URL) in
 `league.json` as `sleeper_draft_id`, then type `sync` to pull picks instead of
 typing them. Both ways can be mixed.
 
+## Practice first: mock mode
+
+```
+python draft.py --mock --slot 7
+```
+
+The other eleven teams draft automatically by ADP with a little randomness
+(respecting sane roster limits, K/DEF late). You only make your own picks;
+type `auto` to let the engine pick for you. `--seed 3` makes a mock
+repeatable. Mock state is kept separately (`data/mock_state.json`) so it
+never touches a real draft in progress.
+
 ## 3. How it decides
 
 For every available player:
