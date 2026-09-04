@@ -192,15 +192,23 @@ class Draft:
             print("You have no picks left.")
             return
         avail = self.available()
+        # at the turn (next pick 1-2 away) the pick after that is what matters
+        turn = nxt is not None and nxt - target <= 2
+        nxt2 = st.next_my_pick(lg, after=nxt) if turn else None
         recs, outlooks = recommend(avail, self.my_players(), lg, self.strategy, target, nxt,
                                    n * 3 if not mine else n)
+        if turn and nxt2:
+            _, outlooks = recommend(avail, self.my_players(), lg, self.strategy, target, nxt2, 1)
+            print(c(f"(Turn: you also pick at #{nxt}. '@{nxt2}' = chance he lasts to your pick "
+                    f"after that; outlook below is against #{nxt2}.)", "yellow"))
         if not mine:
             print(f"(Planning for your pick #{target}. '@yours' = chance he lasts to #{target}; "
                   f"'@next' = chance he lasts to your following pick #{nxt}.)")
         print()
         yours_hdr = f"{'@yours':>6} " if not mine else ""
+        turn_hdr = f"{'@' + str(nxt2):>5} " if (turn and nxt2) else ""
         print(c(f"{'#':>2} {'score':>6}  {'player':<26}{'pos':<5}{'rk':>4} {'tier':>4} {'adp':>5} "
-                f"{'vsADP':>6} {'bye':>3} {yours_hdr}{'@next':>5}  why", "dim"))
+                f"{'vsADP':>6} {'bye':>3} {yours_hdr}{'@next':>5} {turn_hdr} why", "dim"))
         shown, longshots = 0, []
         for r in recs:
             p = r.player
@@ -223,14 +231,19 @@ class Draft:
             avail_c = color.pct(r.p_avail_next, f"{avail_s:>5}") if nxt else f"{avail_s:>5}"
             yours_c = color.pct(p_yours, f"{yours_s:>6}") if not mine else ""
             why = c("; ", "dim").join(color.reason(x) for x in r.reasons)
+            turn_c = ""
+            if turn and nxt2:
+                p2 = p_available(p, nxt2, target)
+                turn_c = color.pct(p2, f"{p2 * 100:>4.0f}%") + " "
             print(f"{shown:>2} {r.score:>6.1f}  {name}{posl}"
                   f"{p.rank:>4} {tier:>4} {adp:>5} {self.vs_adp(p, target)} {bye:>3} "
-                  f"{yours_c}{avail_c}  {why}")
+                  f"{yours_c}{avail_c} {turn_c} {why}")
         self.print_fallers(avail, target)
         if longshots:
             print(c(f"   unlikely to reach you: {', '.join(longshots[:6])}", "dim"))
         print()
-        print(c(f"{'pos':<4}{'best now':<29}{'likely best at your next pick':<32}"
+        later = f"likely best at #{nxt2}" if (turn and nxt2) else "likely best at your next pick"
+        print(c(f"{'pos':<4}{'best now':<29}{later:<32}"
                 f"{'ppg now':>8} {'ppg next':>9} {'~gone':>5}", "dim"))
         for pos in POSITIONS:
             o = outlooks[pos]
@@ -238,7 +251,7 @@ class Draft:
                 continue
             bn = f"{o.best_now.name[:20]} (rk {o.best_now.rank})"
             ln = (f"{o.likely_next.name[:20]} (rk {o.likely_next.rank})"
-                  if o.likely_next and nxt else "-")
+                  if o.likely_next and (nxt or nxt2) else "-")
             drop = o.ppg_now - o.ppg_next
             nxt_s = f"{o.ppg_next:>9.1f}"
             nxt_c = c(nxt_s, "red") if drop >= 1.5 else (c(nxt_s, "yellow") if drop >= 0.7 else nxt_s)
