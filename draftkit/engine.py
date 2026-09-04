@@ -18,6 +18,7 @@ from .models import League, Player, POSITIONS
 from .strategies import Strategy
 
 URGENCY_W = 0.8          # weight of drop-off-if-you-wait
+INJURY_ADJ = 0.0         # 0 = ignore injury risk; 0.25 = discount value by a quarter of the risk
 LAST_IN_TIER_BONUS = 4.0  # last player in a tier at his position
 BENCH_DISCOUNT = {"QB": 0.45, "RB": 0.8, "WR": 0.8, "TE": 0.45, "K": 0.05, "DEF": 0.05}
 FLEX_DISCOUNT = 0.92
@@ -35,8 +36,9 @@ def get_params() -> dict:
 
 def set_params(params: dict) -> None:
     """Override the tunable weights (see simulate.py --tune)."""
-    global URGENCY_W, LAST_IN_TIER_BONUS, FLEX_DISCOUNT
+    global URGENCY_W, LAST_IN_TIER_BONUS, FLEX_DISCOUNT, INJURY_ADJ
     URGENCY_W = float(params.get("URGENCY_W", URGENCY_W))
+    INJURY_ADJ = float(params.get("INJURY_ADJ", INJURY_ADJ))
     LAST_IN_TIER_BONUS = float(params.get("LAST_IN_TIER_BONUS", LAST_IN_TIER_BONUS))
     FLEX_DISCOUNT = float(params.get("FLEX_DISCOUNT", FLEX_DISCOUNT))
     if "BENCH_RBWR" in params:
@@ -67,6 +69,8 @@ def player_value(p: Player) -> float:
     v = base_value(p.rank)
     if p.pos in ("K", "DEF"):
         v = max(v, 25.0 - 1.0 * p.pos_rank)
+    if INJURY_ADJ and p.injury:
+        v *= 1.0 - INJURY_ADJ * p.injury
     return v
 
 
@@ -270,7 +274,8 @@ def recommend(available: list[Player], my_players: list[Player], league: League,
         if p.adp is not None and p.adp - now_pick >= 10:
             reasons.append(f"you rank him above his ADP ({p.adp:.0f})")
         if p.injury is not None and p.injury >= 0.65:
-            reasons.append(f"injury risk {p.injury * 100:.0f}%")
+            tag = " (applied)" if INJURY_ADJ else ""
+            reasons.append(f"injury risk {p.injury * 100:.0f}%{tag}")
         recs.append(Recommendation(p, score, value, pa, urgency, sm, nm, reasons))
     recs.sort(key=lambda r: -r.score)
     return recs[:top_n], outlooks

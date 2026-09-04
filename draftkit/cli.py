@@ -37,6 +37,7 @@ Commands (case-insensitive, partial names are fine):
   taken [N]           last N picks
   find <text>         search players (shows taken status)
   strategy [NAME]     show or switch strategy
+  injury [on|off]     discount scores by DraftSharks injury risk (default off)
   slot N              change your draft slot
   sync                pull picks from Sleeper (needs sleeper_draft_id in league.json)
   auto                let the engine make your pick (top recommendation)
@@ -177,8 +178,9 @@ class Draft:
         print(self.header())
         if st.current_pick > lg.total_picks:
             return
-        print(c("Strategy: ", "dim") + c(self.strategy.name, "bold") + c("    Roster -> ", "dim")
-              + self.roster_line())
+        inj = c("  [injury-adjusted]", "yellow") if engine.INJURY_ADJ else ""
+        print(c("Strategy: ", "dim") + c(self.strategy.name, "bold") + inj
+              + c("    Roster -> ", "dim") + self.roster_line())
         mine = st.is_my_pick(lg)
         now = st.current_pick
         # If it's my pick, "next" = my following pick. If not, evaluate as of my
@@ -504,6 +506,13 @@ class Draft:
                     for s in strategies.STRATEGIES.values():
                         mark = "*" if s.name == self.strategy.name else " "
                         print(f" {mark} {s.name:<14} {s.description}  [{s.suggested_slots}]")
+            elif cmd == "injury":
+                if rest.lower() in ("on", "off"):
+                    engine.INJURY_ADJ = 0.25 if rest.lower() == "on" else 0.0
+                state = "on" if engine.INJURY_ADJ else "off"
+                print(f"  injury adjustment {state} (value x (1 - 0.25 x risk))")
+                if rest:
+                    self.show()
             elif cmd == "slot" and rest.isdigit():
                 self.state.slot = int(rest)
                 self.state.save()
@@ -540,9 +549,13 @@ def main(argv=None) -> int:
                     help="practice: the other teams draft automatically by ADP")
     ap.add_argument("--seed", type=int, help="random seed for --mock (repeatable drafts)")
     ap.add_argument("--no-color", action="store_true", help="plain text output")
+    ap.add_argument("--injury", action="store_true",
+                    help="start with injury-risk adjustment on (toggle with 'injury on/off')")
     args = ap.parse_args(argv)
     if args.no_color:
         color.ENABLED = False
+    if args.injury:
+        engine.INJURY_ADJ = 0.25
     if args.state is None:
         args.state = os.path.join(DATA, "mock_state.json" if args.mock else "draft_state.json")
 
