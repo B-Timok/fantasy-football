@@ -112,9 +112,15 @@ def main():
         req = urllib.request.Request(a.source, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=20) as resp:
             html = resp.read().decode("utf-8", "replace")
-        rows = rows_from_html(html) or rows_from_text(re.sub(r"<[^>]+>", " ", html))
-    if not rows:
-        print("Found no ADP rows. Copy the table text into a file and run with --text.")
+        rows = rows_from_html(html)
+        if len(rows) < 20:
+            stripped = re.sub(r"(?is)<(script|style).*?</\1>", " ", html)
+            rows = rows_from_text(re.sub(r"<[^>]+>", "\n", stripped))
+    if len(rows) < 20:
+        print(f"Found only {len(rows)} usable rows, not writing {a.out}.")
+        print("The page is probably rendered by JavaScript. Select the whole ADP table in your")
+        print("browser, copy, paste into a file (e.g. adp.txt), then run:")
+        print("    python3 fetch_adp.py --text adp.txt")
         return 1
     rows.sort(key=lambda r: r[3])
     with open(a.out, "w", newline="", encoding="utf-8") as f:
