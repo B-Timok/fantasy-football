@@ -1,0 +1,16 @@
+rank,name,pos,team,tier,tier_label,ppg
+1,Los Angeles Rams,DEF,LAR,1,S,8.0
+2,Houston Texans,DEF,HOU,1,S,9.6
+3,Denver Broncos,DEF,DEN,1,S,8.4
+4,Seattle Seahawks,DEF,SEA,2,A,10.5
+5,Philadelphia Eagles,DEF,PHI,2,A,7.9
+6,Jacksonville Jaguars,DEF,JAX,3,B,8.5
+7,Los Angeles Chargers,DEF,LAC,3,B,6.5
+8,Kansas City Chiefs,DEF,KC,3,B,5.4
+9,Tennessee Titans,DEF,TEN,3,B,5.1
+10,Pittsburgh Steelers,DEF,PIT,4,C,7.6
+11,Las Vegas Raiders,DEF,LV,4,C,4.4
+12,Detroit Lions,DEF,DET,4,C,5.7
+13,Buffalo Bills,DEF,BUF,5,D,6.5
+14,Chicago Bears,DEF,CHI,5,D,6.8
+15,Baltimore Ravens,DEF,BAL,5,D,5.7
